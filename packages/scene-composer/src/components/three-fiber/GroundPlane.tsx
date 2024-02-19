@@ -7,7 +7,6 @@ import { IGroundPlaneSettings, KnownSceneProperty } from '../../interfaces';
 import { useSceneComposerId } from '../../common/sceneComposerIdContext';
 import { MAX_CLICK_DISTANCE } from '../../common/constants';
 import useAddWidget from '../../hooks/useAddWidget';
-import useMatterportViewer from '../../hooks/useMatterportViewer';
 import useTwinMakerTextureLoader from '../../hooks/useTwinMakerTextureLoader';
 import { useEditorState, useStore } from '../../store';
 import { acceleratedRaycasting } from '../../utils/objectThreeUtils';
@@ -21,7 +20,6 @@ const GroundPlane: React.FC = () => {
   const groundPlaneSettings = useStore(sceneComposerId)((state) =>
     state.getSceneProperty<IGroundPlaneSettings>(KnownSceneProperty.GroundPlaneSettings),
   );
-  const { enableMatterportViewer } = useMatterportViewer();
 
   const [meshId, setMeshId] = useState('');
   const [dirtyTexture, setDirtyTexture] = useState(false);
@@ -64,7 +62,6 @@ const GroundPlane: React.FC = () => {
       args={[1000, 1000]}
       ref={meshRef}
       onClick={onClick}
-      renderOrder={enableMatterportViewer ? 1 : undefined}
     >
       <meshStandardMaterial
         color={groundPlaneSettings.color ? groundPlaneSettings.color : undefined}
@@ -80,7 +77,6 @@ const GroundPlane: React.FC = () => {
       args={[1000, 1000]}
       ref={meshRef}
       onClick={onClick}
-      renderOrder={enableMatterportViewer ? 1 : undefined}
     >
       <meshBasicMaterial transparent={true} opacity={0} side={THREE.DoubleSide} />
     </Plane>

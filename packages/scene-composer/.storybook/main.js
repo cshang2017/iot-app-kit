@@ -8,9 +8,7 @@ module.exports = {
     '../dist',
     '../public',
     // TODO: resolve how you want to handle this, initial install hoists to root
-    // but clean + reinstall occasionally installs the @matterport within the scene-composer
     // node_modules?
-    // `${path.resolve('./node_modules/@matterport/webcomponent/built-bundle')}`,
     `${path.resolve('../../node_modules/@matterport/webcomponent/built-bundle')}`,
   ],
   typescript: {

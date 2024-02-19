@@ -13,7 +13,6 @@ enum SceneComponentProperty {
   PropertiesEnvironmentPreset = 'properties_environmentPreset',
   PropertiesDataBindingConfig = 'properties_dataBindingConfig',
   PropertiesComponentSettings = 'properties_componentSettings',
-  PropertiesMatterportModelId = 'properties_matterportModelId',
   ConnectedToLayers = 'connectedToLayers',
   PropertiesTagCustomColors = 'properties_tagCustomColors',
   PropertiesLayerDefaultRefreshInterval = 'properties_layerDefaultRefreshInterval',
@@ -129,13 +128,7 @@ export const createSceneEntityComponent = (
       value,
     };
   }
-  if (scene.properties?.matterportModelId) {
-    comp.properties![SceneComponentProperty.PropertiesMatterportModelId] = {
-      value: {
-        stringValue: scene.properties.matterportModelId,
-      },
-    };
-  }
+
   if (scene.properties?.layerIds && !isEmpty(scene.properties?.layerIds)) {
     comp.properties![SceneComponentProperty.ConnectedToLayers] = {
       value: {

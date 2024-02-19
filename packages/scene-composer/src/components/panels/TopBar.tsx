@@ -7,7 +7,6 @@ import { KnownComponentType } from '../../interfaces';
 import { sceneComposerIdContext } from '../../common/sceneComposerIdContext';
 import { ICameraComponentInternal, useStore } from '../../store';
 import useActiveCamera from '../../hooks/useActiveCamera';
-import useMatterportViewer from '../../hooks/useMatterportViewer';
 import { findComponentByType } from '../../utils/nodeUtils';
 import { getCameraSettings } from '../../utils/cameraUtils';
 
@@ -24,7 +23,6 @@ export const TopBar: FC = () => {
   const getSceneNodeByRef = useStore(sceneComposerId)((state) => state.getSceneNodeByRef);
   const getObject3DBySceneNodeRef = useStore(sceneComposerId)((state) => state.getObject3DBySceneNodeRef);
   const { setActiveCameraSettings } = useActiveCamera();
-  const { enableMatterportViewer } = useMatterportViewer();
   const intl = useIntl();
 
   const cameraItems = useMemo(() => {
@@ -40,7 +38,7 @@ export const TopBar: FC = () => {
       });
   }, [nodeMap]);
 
-  const hasCameraView = cameraItems.length > 0 && !enableMatterportViewer;
+  const hasCameraView = cameraItems.length > 0;
   const showTopBar = hasCameraView;
 
   const setActiveCameraOnItemClick = useCallback(

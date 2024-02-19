@@ -85,7 +85,6 @@ describe('createSceneEntityComponent', () => {
         [KnownSceneProperty.EnvironmentPreset]: 'neutral',
         [KnownSceneProperty.LayerDefaultRefreshInterval]: 4000,
         [KnownSceneProperty.LayerIds]: ['layer-1111', 'layer-2222'],
-        [KnownSceneProperty.MatterportModelId]: 'matterport-id',
         [KnownSceneProperty.TagCustomColors]: ['#FFFFFF', '#123456'],
       },
     });
@@ -190,11 +189,6 @@ describe('createSceneEntityComponent', () => {
       properties_tagCustomColors: {
         value: {
           listValue: [{ stringValue: '#FFFFFF' }, { stringValue: '#123456' }],
-        },
-      },
-      properties_matterportModelId: {
-        value: {
-          stringValue: 'matterport-id',
         },
       },
     });
