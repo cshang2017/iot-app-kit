@@ -178,6 +178,10 @@ exports[`SettingsPanel contains expected elements. should contains default eleme
       valuedatabindingprovider="[object Object]"
     />
   </div>
+  <div
+    data-mocked="ExpandableInfoSection"
+    title="3rd Party Resources"
+  />
 </div>
 `;
 
@@ -484,6 +488,10 @@ exports[`SettingsPanel contains expected elements. should contains settings elem
   </div>
   <div
     data-mocked="ExpandableInfoSection"
+    title="3rd Party Resources"
+  />
+  <div
+    data-mocked="ExpandableInfoSection"
     title="Convert scene"
   >
     <div
@@ -663,6 +671,10 @@ exports[`SettingsPanel contains expected elements. should contains settings elem
       Always on
     </div>
   </div>
+  <div
+    data-mocked="ExpandableInfoSection"
+    title="3rd Party Resources"
+  />
 </div>
 `;
 

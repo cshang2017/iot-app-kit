@@ -14,7 +14,7 @@ import { Divider } from '../Divider';
 import useDynamicScene from '../../hooks/useDynamicScene';
 
 import { ExpandableInfoSection } from './CommonPanelComponents';
-import { MatterportIntegration, SceneDataBindingTemplateEditor, SceneTagSettingsEditor } from './scene-settings';
+import { SceneDataBindingTemplateEditor, SceneTagSettingsEditor } from './scene-settings';
 import { ComponentVisibilityToggle } from './scene-settings/ComponentVisibilityToggle';
 import { OverlayPanelVisibilityToggle } from './scene-settings/OverlayPanelVisibilityToggle';
 import { ConvertSceneSettings } from './scene-settings/ConvertSceneSettings';
@@ -34,7 +34,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ valueDataBindingPr
   const isEditing = useStore(sceneComposerId)((state) => state.isEditing());
   const intl = useIntl();
 
-  const matterportEnabled = getGlobalSettings().featureConfig[COMPOSER_FEATURES.Matterport];
   const sceneAppearanceEnabled = getGlobalSettings().featureConfig[COMPOSER_FEATURES.SceneAppearance];
   const animationComponentEnabled = getGlobalSettings().featureConfig[COMPOSER_FEATURES.Animations];
   const dynamicSceneEnabled = useDynamicScene();
@@ -207,7 +206,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ valueDataBindingPr
         </ExpandableInfoSection>
       )}
 
-      {matterportEnabled && isEditing && (
+      {isEditing && (
         <ExpandableInfoSection
           title={intl.formatMessage({
             description: 'ExpandableInfoSection Title',
@@ -215,7 +214,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ valueDataBindingPr
           })}
           defaultExpanded={false}
         >
-          <MatterportIntegration />
         </ExpandableInfoSection>
       )}
 
