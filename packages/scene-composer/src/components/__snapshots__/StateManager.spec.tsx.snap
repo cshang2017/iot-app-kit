@@ -7,28 +7,6 @@ exports[`StateManager should render correctly 1`] = `
       <LoadingProgress />
     </Provider>
   }
-  externalLibraryConfig={Object {}}
-  isViewing={false}
-  onPointerMissed={[Function]}
-/>
-`;
-
-exports[`StateManager should render correctly with Matterport configuration 1`] = `
-<SceneLayout
-  LoadingView={
-    <Provider>
-      <LoadingProgress />
-    </Provider>
-  }
-  externalLibraryConfig={
-    Object {
-      "matterport": Object {
-        "accessToken": "mockAccessToken",
-        "applicationKey": "mockApplicationKey",
-        "modelId": "mockMatterportModelId",
-      },
-    }
-  }
   isViewing={false}
   onPointerMissed={[Function]}
 />

@@ -3,11 +3,9 @@ import { useIntl } from 'react-intl';
 import styled, { ThemeContext } from 'styled-components';
 import { Canvas, ThreeEvent, useThree } from '@react-three/fiber';
 import { useContextBridge } from '@react-three/drei/core/useContextBridge';
-import { MatterportViewer, MpSdk } from '@matterport/r3f/dist';
 import { isEmpty } from 'lodash';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { setMatterportSdk } from '../../common/GlobalSettings';
 import LoggingContext from '../../logger/react-logger/contexts/logging';
 import { MenuBar } from '../../components/MenuBar';
 import { StaticLayout } from '../StaticLayout';
@@ -24,9 +22,8 @@ import { sceneComposerIdContext, useSceneComposerId } from '../../common/sceneCo
 import { useSceneDocument, useStore } from '../../store';
 import LogProvider from '../../logger/react-logger/log-provider';
 import DefaultErrorFallback from '../../components/DefaultErrorFallback';
-import { ExternalLibraryConfig, KnownComponentType, MatterportConfig } from '../../interfaces';
+import { ExternalLibraryConfig, KnownComponentType } from '../../interfaces';
 import { CameraPreview } from '../../components/three-fiber/CameraPreview';
-import useMatterportViewer from '../../hooks/useMatterportViewer';
 import useSelectedNode from '../../hooks/useSelectedNode';
 import { findComponentByType } from '../../utils/nodeUtils';
 import useDynamicScene from '../../hooks/useDynamicScene';
@@ -74,48 +71,17 @@ const TestBootstrapper = () => {
   return <></>;
 };
 
-const R3FWrapper = (props: { matterportConfig?: MatterportConfig; children?: ReactNode; sceneLoaded?: boolean }) => {
-  const { children, sceneLoaded, matterportConfig } = props;
+const R3FWrapper = (props: { children?: ReactNode; sceneLoaded?: boolean }) => {
+  const { children, sceneLoaded, } = props;
   const sceneComposerId = useContext(sceneComposerIdContext);
   const ContextBridge = useContextBridge(LoggingContext, sceneComposerIdContext, ThemeContext);
-  const { enableMatterportViewer } = useMatterportViewer();
-  const loadMatterport = enableMatterportViewer && matterportConfig && !isEmpty(matterportConfig.modelId);
 
-  useEffect(() => {
-    if (!loadMatterport) {
-      setMatterportSdk(sceneComposerId);
-      /* Clear the Cache for THREE to reset the R3F when switching from a Matterport to a non-Matterport scene.
-      This is required to revert/reset the changes done by the Matterport viewer. */
-      window.THREE.Cache.clear();
-    }
-  }, [loadMatterport]);
 
   if (!sceneLoaded) {
     return null;
   }
 
-  return loadMatterport ? (
-    <MatterportViewer
-      assetBase={matterportConfig?.assetBase}
-      m={matterportConfig?.modelId}
-      applicationKey={matterportConfig?.applicationKey}
-      connect-auth={matterportConfig?.accessToken}
-      connect-provider='iot-twinmaker'
-      onReady={(matterportSdk: MpSdk) => {
-        setMatterportSdk(sceneComposerId, matterportSdk);
-      }}
-      style={{ width: '100%', height: '100%' }}
-      search={0}
-      title={0}
-      mt={0}
-      play={1}
-      mls={1}
-    >
-      <ContextBridge>
-        <Suspense fallback={null}>{children}</Suspense>
-      </ContextBridge>
-    </MatterportViewer>
-  ) : (
+  return (
     <UnselectableCanvas shadows dpr={window.devicePixelRatio} id='tm-scene-unselectable-canvas'>
       <ContextBridge>
         <Suspense fallback={null}>{children}</Suspense>
@@ -197,7 +163,7 @@ const SceneLayout: FC<SceneLayoutProps> = ({ isViewing, LoadingView = null, exte
               {shouldShowPreview && (
                 <CameraPreviewTrack ref={renderDisplayRef} title={selectedNode.selectedSceneNode?.name} />
               )}
-              <R3FWrapper sceneLoaded={sceneLoaded} matterportConfig={externalLibraryConfig?.matterport}>
+              <R3FWrapper sceneLoaded={sceneLoaded} >
                 {sceneLoaded && <TestBootstrapper />}
                 <Suspense fallback={LoadingView}>
                   {!sceneLoaded ? null : (

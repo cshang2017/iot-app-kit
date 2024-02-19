@@ -29,11 +29,8 @@ import { DataStream } from '@iot-app-kit/core';
 import useActiveCamera from '../hooks/useActiveCamera';
 import { KnownComponentType } from '..';
 import * as THREE from 'three';
-import { MATTERPORT_ERROR, SCENE_CAPABILITY_MATTERPORT } from '../common/constants';
 import { TwinMakerSceneMetadataModule } from '@iot-app-kit/source-iottwinmaker';
-import { MpSdk } from '@matterport/webcomponent';
 import { SceneComposerInternalConfig } from '../interfaces/sceneComposerInternal';
-import { setMatterportSdk } from '../common/GlobalSettings';
 
 jest.mock('../hooks/useActiveCamera', () => {
   return jest.fn().mockReturnValue({
@@ -73,8 +70,6 @@ describe('StateManager', () => {
     ...baseState,
     noHistoryStates: {
       ...useStore('default').getState().noHistoryStates,
-      connectionNameForMatterportViewer: connectionName,
-      setConnectionNameForMatterportViewer: jest.fn(),
       setViewport: setViewportMock,
       setDataBindingQueryRefreshRate: setDataBindingQueryRefreshRateMock,
       setAutoQueryEnabled: setAutoQueryEnabledMock,
@@ -105,8 +100,8 @@ describe('StateManager', () => {
     const mockArrayBuffer = str2ab(mockSceneContent);
     mockGetSceneObjectFunction.mockImplementation(() => Promise.resolve(mockArrayBuffer));
     getSceneInfo.mockResolvedValue({
-      capabilities: [SCENE_CAPABILITY_MATTERPORT],
-      sceneMetadata: { MATTERPORT_SECRET_ARN: MOCK_ARN },
+      capabilities: [],
+      sceneMetadata: { },
     });
   });
 
@@ -249,60 +244,7 @@ describe('StateManager', () => {
     errorSpy.mockRestore();
   });
 
-  it('should render correctly with Matterport configuration', async () => {
-    useStore('default').setState({
-      ...createState('mockConnectionName'),
-      getSceneProperty: jest.fn().mockReturnValue('mockMatterportModelId'),
-    });
-    getSceneInfo.mockResolvedValue({
-      generatedSceneMetadata: {
-        MATTERPORT_ACCESS_TOKEN: 'mockAccessToken',
-        MATTERPORT_APPLICATION_KEY: 'mockApplicationKey',
-      },
-    });
 
-    let container;
-    await act(async () => {
-      container = create(
-        <StateManager
-          viewport={viewport}
-          sceneLoader={mockSceneLoader}
-          sceneMetadataModule={mockSceneMetadataModule}
-          config={sceneConfig}
-          dataStreams={mockDataStreams}
-          onSceneUpdated={jest.fn()}
-        />,
-      );
-      await flushPromises();
-    });
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should render correctly with error in Matterport configuration', async () => {
-    useStore('default').setState({
-      ...createState('mockConnectionName'),
-      getSceneProperty: jest.fn().mockReturnValue('mockMatterportModelId'),
-    });
-    getSceneInfo.mockResolvedValue({ error: { message: 'Client id and secret not valid', code: MATTERPORT_ERROR } });
-
-    let container;
-    await act(async () => {
-      container = create(
-        <StateManager
-          viewport={viewport}
-          sceneLoader={mockSceneLoader}
-          sceneMetadataModule={mockSceneMetadataModule}
-          config={sceneConfig}
-          dataStreams={mockDataStreams}
-          onSceneUpdated={jest.fn()}
-        />,
-      );
-      await flushPromises();
-    });
-
-    expect(baseState.addMessages).toBeCalledTimes(1);
-  });
 
   it("should subscribe to query's provider succcessfully", async () => {
     useStore('default').setState(baseState);
@@ -493,54 +435,6 @@ describe('StateManager', () => {
     expect(onSceneLoaded).toBeCalledTimes(1);
   });
 
-  it('should call onSceneLoaded for matterport scene', async () => {
-    useStore('default').setState({
-      ...createState('mockConnectionName'),
-      sceneLoaded: true,
-      getSceneProperty: jest.fn().mockReturnValue('mockMatterportModelId'),
-    });
-    getSceneInfo.mockResolvedValue({
-      generatedSceneMetadata: {
-        MATTERPORT_ACCESS_TOKEN: 'mockAccessToken',
-        MATTERPORT_APPLICATION_KEY: 'mockApplicationKey',
-      },
-    });
-    jest.useFakeTimers();
-
-    const onSceneLoaded = jest.fn();
-
-    let container;
-    await act(async () => {
-      container = create(
-        <StateManager
-          sceneLoader={mockSceneLoader}
-          sceneMetadataModule={mockSceneMetadataModule}
-          config={sceneConfig}
-          onSceneLoaded={onSceneLoaded}
-        />,
-      );
-      await flushPromises();
-    });
-
-    expect(onSceneLoaded).not.toBeCalled();
-
-    await act(async () => {
-      setMatterportSdk('default', {} as MpSdk);
-
-      container.update(
-        <StateManager
-          sceneLoader={mockSceneLoader}
-          sceneMetadataModule={mockSceneMetadataModule}
-          config={sceneConfig}
-          onSceneLoaded={onSceneLoaded}
-        />,
-      );
-      await flushPromises();
-      jest.advanceTimersByTime(1);
-    });
-
-    expect(onSceneLoaded).toBeCalledTimes(1);
-  });
 
   it('should call onSelectionChanged as expected', async () => {
     useStore('default').setState({

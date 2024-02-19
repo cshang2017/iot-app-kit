@@ -71,7 +71,6 @@ export const SceneViewer: React.FC<SceneViewerProps> = ({ sceneComposerId, confi
             // Allow beta users to override feature config
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ...((config as any)?.featureConfig || {}),
-            [COMPOSER_FEATURES.Matterport]: true,
             [COMPOSER_FEATURES.SceneAppearance]: true,
           },
         }}

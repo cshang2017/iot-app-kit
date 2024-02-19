@@ -3,7 +3,6 @@ import * as awsui from '@awsui/design-tokens';
 import React, { useContext, useEffect, useRef } from 'react';
 import { GizmoHelper, GizmoViewport } from '@react-three/drei';
 import { ThreeEvent, useThree } from '@react-three/fiber';
-import { MatterportModel } from '@matterport/r3f/dist';
 
 import { KnownSceneProperty, COMPOSER_FEATURES } from '../interfaces';
 import useLifecycleLogging from '../logger/react-logger/hooks/useLifecycleLogging';
@@ -16,7 +15,6 @@ import { ViewCursorWidget } from '../augmentations/components/three-fiber/viewpo
 import { getIntersectionTransform } from '../utils/raycastUtils';
 import { createNodeWithPositionAndNormal } from '../utils/nodeUtils';
 import { EnvironmentLoadingManager } from '../common/loadingManagers';
-import useMatterportViewer from '../hooks/useMatterportViewer';
 
 import Environment, { presets } from './three-fiber/Environment';
 import Fog from './three-fiber/Fog';
@@ -41,7 +39,7 @@ export const WebGLCanvasManager: React.FC = () => {
   const sceneComposerId = useContext(sceneComposerIdContext);
   const { isEditing, addingWidget, setAddingWidget } = useEditorState(sceneComposerId);
   const sceneAppearanceEnabled = getGlobalSettings().featureConfig[COMPOSER_FEATURES.SceneAppearance];
-  const { enableMatterportViewer } = useMatterportViewer();
+
   const { document, getSceneNodeByRef, getSceneProperty } = useSceneDocument(sceneComposerId);
   const appendSceneNode = useStore(sceneComposerId)((state) => state.appendSceneNode);
   const { gl } = useThree();
@@ -122,7 +120,6 @@ export const WebGLCanvasManager: React.FC = () => {
                 hexColorFromDesignToken(awsui.colorTextInputDisabled) /* grid color */,
               ]}
             />
-            {enableMatterportViewer && <MatterportModel onClick={onClick} />}
           </React.Fragment>
           <IntlProvider locale={getGlobalSettings().locale}>
             <SceneInfoView />

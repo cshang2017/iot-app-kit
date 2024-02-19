@@ -11,7 +11,6 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import * as THREE from 'three';
 
 import {
-  getMatterportSdk,
   setDracoDecoder,
   setFeatureConfig,
   setGetSceneObjectFunction,
@@ -19,19 +18,11 @@ import {
   setMetricRecorder,
   setOnFlashMessage,
   setTwinMakerSceneMetadataModule,
-  subscribe,
-  unsubscribe,
 } from '../common/GlobalSettings';
-import {
-  MATTERPORT_ACCESS_TOKEN,
-  MATTERPORT_APPLICATION_KEY,
-  MATTERPORT_ERROR,
-  MATTERPORT_SECRET_ARN,
-} from '../common/constants';
+
 import { DisplayMessageCategory } from '../store/internalInterfaces';
 import { useSceneComposerId } from '../common/sceneComposerIdContext';
 import useActiveCamera from '../hooks/useActiveCamera';
-import useMatterportViewer from '../hooks/useMatterportViewer';
 import { AdditionalComponentData, ExternalLibraryConfig, KnownComponentType, KnownSceneProperty } from '../interfaces';
 import { SceneLayout } from '../layouts/SceneLayout';
 import useLifecycleLogging from '../logger/react-logger/hooks/useLifecycleLogging';
@@ -88,20 +79,14 @@ const StateManager: React.FC<SceneComposerInternalProps> = ({
   const [updatedExternalLibraryConfig, setUpdatedExternalLibraryConfig] = useState<ExternalLibraryConfig | undefined>(
     externalLibraryConfig,
   );
-  const matterportModelId = useStore(sceneComposerId)((state) =>
-    state.getSceneProperty<string>(KnownSceneProperty.MatterportModelId),
-  );
+
   const {
-    connectionNameForMatterportViewer,
-    setConnectionNameForMatterportViewer,
     setViewport,
     setDataBindingQueryRefreshRate,
     setAutoQueryEnabled,
   } = useViewOptionState(sceneComposerId);
-  const { enableMatterportViewer } = useMatterportViewer();
   const dataProviderRef = useRef<ProviderWithViewport<TimeSeriesData[]> | undefined>(undefined);
   const prevSelection = useRef<string | undefined>(undefined);
-  const [matterportReady, setMatterportReady] = useState<boolean>(false);
 
   const { setActiveCameraSettings, setActiveCameraName } = useActiveCamera();
 
@@ -134,29 +119,6 @@ const StateManager: React.FC<SceneComposerInternalProps> = ({
     onWidgetClick,
     onSelectionChanged,
   ]);
-
-  // Initialize ConnectionNameForMatterportViewer on scene loading
-  useEffect(() => {
-    if (sceneMetadataModule) {
-      sceneMetadataModule.getSceneInfo().then((getSceneResponse) => {
-        if (getSceneResponse && getSceneResponse.sceneMetadata) {
-          setConnectionNameForMatterportViewer(getSceneResponse.sceneMetadata[MATTERPORT_SECRET_ARN]);
-        }
-      });
-    }
-  }, [sceneLoaded]);
-
-  useEffect(() => {
-    const onMatterportSdkUpdated = () => {
-      const isReady = !!getMatterportSdk(sceneComposerId);
-      setMatterportReady(isReady);
-    };
-    subscribe(onMatterportSdkUpdated);
-
-    return () => {
-      unsubscribe(onMatterportSdkUpdated);
-    };
-  }, []);
 
   useEffect(() => {
     if (!selectedDataBinding) {
@@ -273,25 +235,15 @@ const StateManager: React.FC<SceneComposerInternalProps> = ({
   }, [sceneContentUri]);
 
   useEffect(() => {
-    if (sceneMetadataModule && enableMatterportViewer) {
+    if (sceneMetadataModule) {
       sceneMetadataModule
         .getSceneInfo()
         .then((sceneInfo) => {
-          if (sceneInfo.error && sceneInfo.error.code === MATTERPORT_ERROR && sceneInfo.error.message) {
+          if (sceneInfo.error && sceneInfo.error.message) {
             addMessages([{ category: DisplayMessageCategory.Warning, messageText: sceneInfo.error.message }]);
           } else if (sceneInfo && sceneInfo.generatedSceneMetadata) {
-            const accessToken = sceneInfo.generatedSceneMetadata[MATTERPORT_ACCESS_TOKEN];
-            const applicationKey = sceneInfo.generatedSceneMetadata[MATTERPORT_APPLICATION_KEY];
 
-            if (applicationKey) {
-              const updatedMatterportLibraryConfig = { ...externalLibraryConfig?.matterport };
-              updatedMatterportLibraryConfig.modelId = matterportModelId;
-              updatedMatterportLibraryConfig.accessToken = accessToken;
-              updatedMatterportLibraryConfig.applicationKey = applicationKey;
-              setUpdatedExternalLibraryConfig({ ...externalLibraryConfig, matterport: updatedMatterportLibraryConfig });
-            } else {
-              setUpdatedExternalLibraryConfig({ ...externalLibraryConfig });
-            }
+            setUpdatedExternalLibraryConfig({ ...externalLibraryConfig });
           }
         })
         .catch((error) => {
@@ -301,9 +253,6 @@ const StateManager: React.FC<SceneComposerInternalProps> = ({
       setUpdatedExternalLibraryConfig({ ...externalLibraryConfig });
     }
   }, [
-    enableMatterportViewer,
-    connectionNameForMatterportViewer,
-    matterportModelId,
     externalLibraryConfig,
     sceneMetadataModule,
   ]);
@@ -316,14 +265,14 @@ const StateManager: React.FC<SceneComposerInternalProps> = ({
   }, [sceneContent]);
 
   useEffect(() => {
-    if (onSceneLoaded && sceneLoaded && (!enableMatterportViewer || matterportReady)) {
+    if (onSceneLoaded && sceneLoaded) {
       // Delay the event handler to let other components finish loading, otherwise the consumer side will
       // fail to update scene states
       setTimeout(() => {
         onSceneLoaded();
       }, 1);
     }
-  }, [sceneLoaded, onSceneLoaded, enableMatterportViewer, matterportReady]);
+  }, [sceneLoaded, onSceneLoaded]);
 
   // Subscribe to store update
   useEffect(() => {
