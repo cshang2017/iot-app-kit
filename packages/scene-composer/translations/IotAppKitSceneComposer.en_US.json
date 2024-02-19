@@ -187,10 +187,6 @@
     "note": "Form Field label",
     "text": "Component Type Id"
   },
-  "6gTEPn": {
-    "note": "Form Field label",
-    "text": "Connection Name"
-  },
   "6y5r/N": {
     "note": "Menu Item",
     "text": "Add motion indicator"
@@ -218,10 +214,6 @@
   "7r0VXc": {
     "note": "Input field label",
     "text": "Expression"
-  },
-  "80grlm": {
-    "note": "Status indicator label",
-    "text": "Tags sync successful"
   },
   "81kEJb": {
     "note": "Menu Item",
@@ -390,10 +382,6 @@
   "FvIdJC": {
     "note": "chrome picker",
     "text": "chromePicker"
-  },
-  "Fy5tAf": {
-    "note": "Sub-Section Header",
-    "text": "Matterport Integration"
   },
   "GRIkbq": {
     "note": "Menu Item label",
@@ -659,17 +647,9 @@
     "note": "Form Field label",
     "text": "Model Type"
   },
-  "V1T3We": {
-    "note": "Status indicator label",
-    "text": "Syncing tags"
-  },
   "VObiQu": {
     "note": "option text of a Select component",
     "text": "Arrow with background"
-  },
-  "W5mTpF": {
-    "note": "Button label",
-    "text": "Learn more"
   },
   "WAYi01": {
     "note": "checkbox option",
@@ -791,10 +771,6 @@
     "note": "drop down menu label",
     "text": "Target"
   },
-  "dLVgDJ": {
-    "note": "Select a connection placeholder",
-    "text": "Select a connection"
-  },
   "dlo3Px": {
     "note": "Placeholder",
     "text": "Choose a color value"
@@ -830,10 +806,6 @@
   "erOaLy": {
     "note": "Expandable Section title",
     "text": "Animation"
-  },
-  "eznlx7": {
-    "note": "Form Field label",
-    "text": "Matterport Model Id"
   },
   "fD6Gup": {
     "note": "Form Field label",
@@ -1007,10 +979,6 @@
     "note": "FormField label",
     "text": "Choose Animations"
   },
-  "nGEVE7": {
-    "note": "Desction label",
-    "text": "No Connections"
-  },
   "nGlTEq": {
     "note": "Form Field label",
     "text": "Arrow"
@@ -1022,10 +990,6 @@
   "nwQbTY": {
     "note": "Icon name label",
     "text": "Video icon"
-  },
-  "o3PtbU": {
-    "note": "Sub-Section Description",
-    "text": "Connecting your Matterport account enables viewing spaces in your TwinMaker scene."
   },
   "oECZco": {
     "note": "button label",
@@ -1058,10 +1022,6 @@
   "oppsQx": {
     "note": "placeholder",
     "text": "Choose a rule"
-  },
-  "osIcJX": {
-    "note": "Status indicator label",
-    "text": "Tags sync failed"
   },
   "pqZzsr": {
     "note": "alert header text",
@@ -1155,10 +1115,6 @@
     "note": "Progress Bar description",
     "text": "{fileSize} downloaded"
   },
-  "ty9k3i": {
-    "note": "matterport tag sync button",
-    "text": "Sync Matterport Tags"
-  },
   "tz4SMZ": {
     "note": "Panel Tab title",
     "text": "Settings"
@@ -1174,10 +1130,6 @@
   "ubyV0D": {
     "note": "Remove parameter Button Text",
     "text": "Remove parameter"
-  },
-  "ugCkWy": {
-    "note": "Enter your Matterport model id placeholder",
-    "text": "Enter your Matterport model id"
   },
   "ujFSQs": {
     "note": "alert body text",

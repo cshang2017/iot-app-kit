@@ -26,7 +26,6 @@ import { ToolbarItem } from '../../common/ToolbarItem';
 import { ToolbarItemOptionRaw, ToolbarItemOptions, ToolbarOrientation } from '../../common/types';
 import { getGlobalSettings } from '../../../../common/GlobalSettings';
 import useActiveCamera from '../../../../hooks/useActiveCamera';
-import useMatterportViewer from '../../../../hooks/useMatterportViewer';
 import { createNodeWithTransform, findComponentByType } from '../../../../utils/nodeUtils';
 import { FLOATING_TOOLBAR_VERTICAL_ORIENTATION_BUFFER } from '../FloatingToolbar';
 import { TOOLBAR_ITEM_CONTAINER_HEIGHT } from '../../common/styledComponents';
@@ -91,7 +90,6 @@ export const AddObjectMenu = ({ canvasHeight, toolbarOrientation }: AddObjectMen
   const nodeMap = useStore(sceneComposerId)((state) => state.document.nodeMap);
   const addMessages = useStore(sceneComposerId)((state) => state.addMessages);
   const { setAddingWidget, getObject3DBySceneNodeRef } = useEditorState(sceneComposerId);
-  const { enableMatterportViewer } = useMatterportViewer();
   const { formatMessage } = useIntl();
   const { activeCameraSettings, mainCameraObject } = useActiveCamera();
   const dynamicSceneEnabled = getGlobalSettings().featureConfig[COMPOSER_FEATURES.DynamicScene];
@@ -128,8 +126,7 @@ export const AddObjectMenu = ({ canvasHeight, toolbarOrientation }: AddObjectMen
           uuid: ObjectTypes.Light,
         },
         {
-          uuid: ObjectTypes.ViewCamera,
-          isDisabled: enableMatterportViewer,
+            uuid: ObjectTypes.ViewCamera,
         },
         {
           uuid: ObjectTypes.Tag,
@@ -145,7 +142,7 @@ export const AddObjectMenu = ({ canvasHeight, toolbarOrientation }: AddObjectMen
           uuid: ObjectTypes.MotionIndicator,
         },
       ].map(mapToMenuItem),
-    [showAssetBrowserCallback, selectedSceneNodeRef, enableMatterportViewer],
+    [showAssetBrowserCallback, selectedSceneNodeRef],
   );
 
   const handleAddAnchor = useCallback(() => {

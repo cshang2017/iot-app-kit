@@ -9,7 +9,6 @@ import { useStore } from '../../../../store';
 import { ToolbarItem } from '../../common/ToolbarItem';
 import { TOOLBAR_ITEM_CONTAINER_HEIGHT, ToolbarItemGroup } from '../../common/styledComponents';
 import { ToolbarItemOptions, ToolbarOrientation } from '../../common/types';
-import useMatterportViewer from '../../../../hooks/useMatterportViewer';
 import { FLOATING_TOOLBAR_VERTICAL_ORIENTATION_BUFFER } from '../FloatingToolbar';
 
 import { AddObjectMenu } from './AddObjectMenu';
@@ -89,7 +88,6 @@ export function SceneItemGroup({
   const sceneComposerId = useContext(sceneComposerIdContext);
   const cameraControlsType = useStore(sceneComposerId)((state) => state.cameraControlsType);
   const setCameraControlsType = useStore(sceneComposerId)((state) => state.setCameraControlsType);
-  const { enableMatterportViewer } = useMatterportViewer();
   const firstPersonOn = getGlobalSettings().featureConfig[COMPOSER_FEATURES.FirstPerson];
   const intl = useIntl();
 
@@ -109,7 +107,7 @@ export function SceneItemGroup({
   return (
     <ToolbarItemGroup isVertical={toolbarOrientation === ToolbarOrientation.Vertical}>
       {!isViewing && <AddObjectMenu canvasHeight={canvasHeight} toolbarOrientation={toolbarOrientation} />}
-      {!enableMatterportViewer && (
+      {(
         <ToolbarItem
           items={items}
           initialSelectedItem={initialSelectedItem}
