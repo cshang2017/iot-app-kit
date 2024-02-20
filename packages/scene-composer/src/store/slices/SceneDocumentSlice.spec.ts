@@ -918,18 +918,16 @@ describe('createSceneDocumentSlice', () => {
 
   it('should be able to getSceneProperty', () => {
     const document = {
-      properties: { matterportModelId: 'abc' },
+      properties: { modelId: 'abc' },
     };
     const get = jest.fn().mockReturnValue({ document }); // fake out get call
     const set = jest.fn();
 
     // Act
     const { getSceneProperty } = createSceneDocumentSlice(set, get);
-    const result = getSceneProperty(KnownSceneProperty.MatterportModelId);
     const result2 = getSceneProperty(KnownSceneProperty.EnvironmentPreset, 'default');
 
-    expect(get).toBeCalledTimes(2);
-    expect(result).toEqual(document.properties.matterportModelId);
+    expect(get).toBeCalledTimes(1);
     expect(result2).toEqual('default');
   });
 
@@ -1340,7 +1338,7 @@ describe('createSceneDocumentSlice', () => {
       const set = jest.fn((callback) => callback(draft));
 
       const { setSceneProperty } = createSceneDocumentSlice(set, get);
-      setSceneProperty(KnownSceneProperty.MatterportModelId, 'matterport-id');
+      setSceneProperty(KnownSceneProperty.EnvironmentPreset, 'setValue');
 
       expect(draft.lastOperation!).toEqual('setSceneProperty');
       expect(updateSceneRootEntity).toBeCalledTimes(1);
