@@ -48,7 +48,7 @@
     "copy-assets": "copyfiles -e \"**/*.tsx\" -e \"**/*.ts\" -e \"**/*.snap\" -e \"**/*.js\" -e \"**/*.jsx\" -e \"**/*.json\" \"src/**/*\" dist/",
     "lint": "eslint . --max-warnings=476",
     "fix": "eslint --fix .",
-    "test": "jest --config jest.config.ts --coverage --silent",
+    "test": "export TS_JEST_DISABLE_VER_CHECKER=true && jest --config jest.config.ts --coverage --silent",
     "test:reliability": "npm run test:ui:reliability",
     "test:dev": "jest --config jest.config.ts --coverage",
     "test:update-threashold": "jest-coverage-ratchet",
