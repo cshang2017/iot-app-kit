@@ -48,13 +48,13 @@ describe('getSceneInfo', () => {
     getScene.mockResolvedValue({
       contentLocation: 'mock-contentLocation',
       s3Location: 'mock-s3Location',
-      capabilities: ['MATTERPORT'],
+      capabilities: [],
     });
 
     const expected = {
       contentLocation: 'mock-contentLocation',
       s3Location: 'mock-s3Location',
-      capabilities: ['MATTERPORT'],
+      capabilities: [],
     };
     const result = await sceneMetadataModule.getSceneInfo();
 
@@ -70,37 +70,6 @@ describe('getSceneInfo', () => {
     } catch (err) {
       expect(err).toEqual('TwinMaker API failed');
       expect(getScene).toBeCalledTimes(1);
-    }
-  });
-});
-
-describe('updateScene', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should update the scene', async () => {
-    updateScene.mockResolvedValue({ updateDateTime: new Date() });
-
-    await sceneMetadataModule.updateSceneInfo({
-      capabilities: ['MATTERPORT'],
-      sceneMetadata: { MATTERPORT_SECRET_ARN: 'dummySecretARN' },
-    });
-
-    expect(updateScene).toBeCalledTimes(1);
-  });
-
-  it('should get error when API failed', async () => {
-    updateScene.mockRejectedValue('TwinMaker API failed');
-
-    try {
-      await sceneMetadataModule.updateSceneInfo({
-        capabilities: ['MATTERPORT'],
-        sceneMetadata: { MATTERPORT_SECRET_ARN: 'dummySecretARN' },
-      });
-    } catch (err) {
-      expect(err).toEqual('TwinMaker API failed');
-      expect(updateScene).toBeCalledTimes(1);
     }
   });
 });
