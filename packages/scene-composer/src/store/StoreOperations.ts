@@ -47,8 +47,7 @@ export type SceneComposerViewOptionOperation =
   | 'setDataBindingQueryRefreshRate'
   | 'setAutoQueryEnabled'
   | 'toggleComponentVisibility'
-  | 'setTagSettings'
-  | 'setConnectionNameForMatterportViewer';
+  | 'setTagSettings';
 
 export type SceneComposerOperation =
   | SceneComposerEditorOperation
@@ -105,5 +104,4 @@ export const SceneComposerOperationTypeMap: Record<SceneComposerOperation, Opera
   setAutoQueryEnabled: 'TRANSIENT',
   toggleComponentVisibility: 'TRANSIENT',
   setTagSettings: 'TRANSIENT',
-  setConnectionNameForMatterportViewer: 'TRANSIENT',
 };

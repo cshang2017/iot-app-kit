@@ -88,7 +88,7 @@ export interface ISceneNodeInternal extends ISceneNode {
   components: ISceneComponentInternal[];
   childRefs: string[];
   properties: Partial<
-    Record<'alwaysVisible' | 'matterportId' | 'hiddenWhileImmersive', boolean | string> &
+    Record<'alwaysVisible' | 'hiddenWhileImmersive', boolean | string> &
       Record<SceneNodeRuntimeProperty, string[]>
   >;
 }

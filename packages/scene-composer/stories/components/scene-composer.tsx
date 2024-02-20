@@ -51,8 +51,7 @@ interface SceneComposerWrapperProps extends SceneViewerPropsShared, ThemeManager
   workspaceId?: string;
   features?: COMPOSER_FEATURES[];
   mode: OperationMode;
-  matterportModelId?: string;
-  matterportApplicationKey?: string;
+
   onSceneUpdated?: OnSceneUpdateCallback;
   viewportDurationSecs?: number;
   queriesJSON?: string;
@@ -72,8 +71,6 @@ const SceneComposerWrapper: FC<SceneComposerWrapperProps> = ({
   features = [],
   sceneLoader: _ignoredLoader,
   onSceneUpdated = () => {},
-  matterportModelId,
-  matterportApplicationKey,
   viewportDurationSecs,
   queriesJSON,
   showAssetBrowserCallback: actionRecorderShowAssetBrowserCallback,
@@ -122,13 +119,7 @@ const SceneComposerWrapper: FC<SceneComposerWrapperProps> = ({
 
   let externalLibraryConfig: ExternalLibraryConfig | undefined;
 
-  if (matterportModelId) {
-    externalLibraryConfig = {
-      matterport: {
-        modelId: matterportModelId,
-        applicationKey: matterportApplicationKey,
-      },
-    };
+
   }
 
   const handleSceneUpdated: OnSceneUpdateCallback = useCallback((sceneSnapshot) => {
@@ -195,24 +186,10 @@ const SceneComposerWrapper: FC<SceneComposerWrapperProps> = ({
 
 export default SceneComposerWrapper;
 
-/*
-export interface MatterportConfig {
-  modelId: string;
-  accessToken?: string;
-  applicationKey?: string;
-  assetBase?: string;
-}
-*/
+
 export const argTypes = {
   ...viewerArgTypes,
-  matterportModelId: {
-    table: { category: 'External Library Config' },
-    control: 'text',
-  },
-  matterportApplicationKey: {
-    table: { category: 'External Library Config' },
-    control: 'text',
-  },
+
   mode: {
     label: 'Operation Mode',
     options: ['Editing', 'Viewing'],

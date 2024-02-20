@@ -2,7 +2,7 @@ import { ThreeEvent } from '@react-three/fiber';
 import React, { useCallback, useContext, useRef } from 'react';
 import { Euler, Object3D } from 'three';
 
-import { getGlobalSettings, getMatterportSdk } from '../../../common/GlobalSettings';
+import { getGlobalSettings } from '../../../common/GlobalSettings';
 import { sceneComposerIdContext, useSceneComposerId } from '../../../common/sceneComposerIdContext';
 import { COMPOSER_FEATURES, KnownComponentType } from '../../../interfaces';
 import LogProvider from '../../../logger/react-logger/log-provider';
@@ -69,7 +69,6 @@ const ChildGroup = ({ node }: { node: ISceneNodeInternal }) => {
 const EntityGroup = ({ node }: IEntityGroupProps): JSX.Element => {
   const sceneComposerId = useContext(sceneComposerIdContext);
   const object3dRef = useRef<THREE.Object3D>();
-  const matterportSdk = getMatterportSdk(sceneComposerId);
 
   const { transform, ref: nodeRef, components } = node;
   const { rotation, position, scale } = transform;
@@ -98,17 +97,7 @@ const EntityGroup = ({ node }: IEntityGroupProps): JSX.Element => {
 
   let onPointerEnter: ((event: ThreeEvent<PointerEvent>) => void) | undefined,
     onPointerLeave: ((event: ThreeEvent<PointerEvent>) => void) | undefined;
-  if (matterportSdk) {
-    // hide Matterport's cursor reticle when hovering entities
-    onPointerEnter = (e) => {
-      e.stopPropagation();
-      matterportSdk.Pointer.setVisible(false);
-    };
-    onPointerLeave = (e) => {
-      e.stopPropagation();
-      matterportSdk.Pointer.setVisible(true);
-    };
-  }
+
 
   const setEntityGroupObject3DRef = useCallback(
     (obj3d: any) => {

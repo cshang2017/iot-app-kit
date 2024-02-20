@@ -30,8 +30,6 @@ export const SCENE_ROOT_ENTITY_ID = 'SCENES_EntityId';
 export const SCENE_ROOT_ENTITY_COMPONENT_NAME = 'Scene';
 export const SCENE_ROOT_ENTITY_NAME = '$SCENES';
 
-// Matterport
-export const MATTERPORT_TAG_LAYER_PREFIX = 'Matterport_Tag_';
 
 // Layer
 export const DEFAULT_LAYER_RELATIONSHIP_NAME = 'inLayerOf';

@@ -61,14 +61,13 @@ export interface ISceneNode {
   components?: ISceneComponent[];
   parentRef?: string;
   childRefs?: string[];
-  properties?: Partial<Record<'alwaysVisible' | 'matterportId' | 'hiddenWhileImmersive', boolean | string>>;
+  properties?: Partial<Record<'alwaysVisible' | 'hiddenWhileImmersive', boolean | string>>;
 }
 
 export enum KnownSceneProperty {
   EnvironmentPreset = 'environmentPreset',
   DataBindingConfig = 'dataBindingConfig',
   ComponentSettings = 'componentSettings',
-  MatterportModelId = 'matterportModelId',
   LayerIds = 'layerIds',
   SceneRootEntityId = 'sceneRootEntityId',
   TagCustomColors = 'tagCustomColors',

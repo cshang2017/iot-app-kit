@@ -13,14 +13,12 @@ export interface IViewOptionStateSlice {
   dataBindingQueryRefreshRate?: number;
   autoQueryEnabled?: boolean;
   tagSettings?: ITagSettings;
-  connectionNameForMatterportViewer?: string;
 
   setViewport: (viewport?: Viewport) => void;
   setDataBindingQueryRefreshRate: (dataBindingQueryRefreshRate?: number) => void;
   setAutoQueryEnabled: (autoQueryEnabled: boolean) => void;
   toggleComponentVisibility: (componentType: KnownComponentType | Component.DataOverlaySubType) => void;
   setTagSettings: (settings: ITagSettings) => void;
-  setConnectionNameForMatterportViewer: (connectionName?: string) => void;
 }
 
 export const createViewOptionStateSlice = (set: SetState<RootState>): IViewOptionStateSlice => ({
@@ -30,7 +28,6 @@ export const createViewOptionStateSlice = (set: SetState<RootState>): IViewOptio
     [Component.DataOverlaySubType.TextAnnotation]: true,
   },
   tagSettings: undefined,
-  connectionNameForMatterportViewer: undefined,
 
   setViewport: (viewport) => {
     set((draft) => {
@@ -61,12 +58,6 @@ export const createViewOptionStateSlice = (set: SetState<RootState>): IViewOptio
     set((draft) => {
       draft.noHistoryStates.tagSettings = settings;
       draft.lastOperation = 'setTagSettings';
-    });
-  },
-  setConnectionNameForMatterportViewer: (connectionName?: string) => {
-    set((draft) => {
-      draft.noHistoryStates.connectionNameForMatterportViewer = connectionName;
-      draft.lastOperation = 'setConnectionNameForMatterportViewer';
     });
   },
 });

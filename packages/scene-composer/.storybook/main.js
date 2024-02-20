@@ -9,7 +9,6 @@ module.exports = {
     '../public',
     // TODO: resolve how you want to handle this, initial install hoists to root
     // node_modules?
-    `${path.resolve('../../node_modules/@matterport/webcomponent/built-bundle')}`,
   ],
   typescript: {
     // also valid 'react-docgen-typescript' | false
