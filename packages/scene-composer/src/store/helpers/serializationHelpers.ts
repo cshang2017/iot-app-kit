@@ -9,6 +9,7 @@ import {
   DEFAULT_LIGHT_SETTINGS_MAP,
   LEGACY_VERSION,
 } from '../../common/constants';
+
 import { ERROR_MESSAGE_DICT, ErrorCode, ErrorLevel, SceneComposerRuntimeError } from '../../common/errors';
 import { KnownComponentType } from '../../interfaces';
 import DebugLogger from '../../logger/DebugLogger';
@@ -20,16 +21,20 @@ import {
   IAnimationComponentInternal,
   ICameraComponentInternal,
   IColorOverlayComponentInternal,
+
   IDataOverlayComponentInternal,
   IDeserializationResult,
   IEntityBindingComponentInternal,
+  
   ILightComponentInternal,
   IModelRefComponentInternal,
   IMotionIndicatorComponentInternal,
   IRuleBasedMapInternal,
+
   ISceneComponentInternal,
   ISceneDocumentInternal,
   ISceneNodeInternal,
+
   ISerializationErrorDetails,
   ISubModelRefComponentInternal,
   SceneNodeRuntimeProperty,

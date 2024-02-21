@@ -33,7 +33,9 @@ export interface ITransformConstraint {
   snapToFloor?: boolean;
 }
 
-export type { ITwinMakerEntityDataBindingContext, IValueDataBinding } from '@iot-app-kit/source-iottwinmaker';
+export type { ITwinMakerEntityDataBindingContext, IValueDataBinding } 
+from '@iot-app-kit/source-iottwinmaker';
+
 export interface TargetMetadata {
   color?: string;
   iconPrefix?: string;

@@ -2,6 +2,7 @@ import create, { StateCreator, UseStore } from 'zustand';
 import shallow from 'zustand/shallow';
 
 import { log, immer, undoMiddleware, UndoState } from './middlewares';
+
 import { SceneComposerOperation } from './StoreOperations';
 import { createSceneDocumentSlice, ISceneDocumentSlice } from './slices/SceneDocumentSlice';
 import { createEditStateSlice, IEditorStateSlice } from './slices/EditorStateSlice';
@@ -12,15 +13,19 @@ import {
   ISceneDocumentInternal,
   ISceneNodeInternal,
   ISceneComponentInternal,
+
   IModelRefComponentInternal,
   ISubModelRefComponentInternal,
+
   ICameraComponentInternal,
   IAnchorComponentInternal,
   ILightComponentInternal,
   IAnimationComponentInternal,
   IColorOverlayComponentInternal,
+
   isISceneComponentInternal,
   isISceneNodeInternal,
+
   IMotionIndicatorComponentInternal,
   IDataOverlayComponentInternal,
   IEntityBindingComponentInternal,
@@ -32,6 +37,7 @@ export type {
   ISceneDocumentInternal,
   ISceneNodeInternal,
   ISceneComponentInternal,
+
   // Components
   IModelRefComponentInternal,
   ISubModelRefComponentInternal,
@@ -157,12 +163,16 @@ const nodeErrorStateSelector = (state: RootState): INodeErrorStateSlice => ({
 const viewOptionStateSelector = (state: RootState): IViewOptionStateSlice => ({
   viewport: state.noHistoryStates.viewport,
   setViewport: state.noHistoryStates.setViewport,
+
   dataBindingQueryRefreshRate: state.noHistoryStates.dataBindingQueryRefreshRate,
   setDataBindingQueryRefreshRate: state.noHistoryStates.setDataBindingQueryRefreshRate,
+
   autoQueryEnabled: state.noHistoryStates.autoQueryEnabled,
   setAutoQueryEnabled: state.noHistoryStates.setAutoQueryEnabled,
+
   componentVisibilities: state.noHistoryStates.componentVisibilities,
   toggleComponentVisibility: state.noHistoryStates.toggleComponentVisibility,
+  
   tagSettings: state.noHistoryStates.tagSettings,
   setTagSettings: state.noHistoryStates.setTagSettings,
 });

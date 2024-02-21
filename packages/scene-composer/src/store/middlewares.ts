@@ -34,7 +34,9 @@ export const immer =
   (set, get, api) =>
     config(
       (partial, replace) => {
-        const nextState = typeof partial === 'function' ? produce(partial as (state: Draft<T>) => T) : (partial as T);
+        const nextState = typeof partial === 'function' 
+            ? produce(partial as (state: Draft<T>) => T) 
+            : (partial as T);
         set(nextState, replace);
       },
       get,
