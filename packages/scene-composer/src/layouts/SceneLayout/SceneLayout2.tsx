@@ -1,11 +1,13 @@
-import React, { FC, ReactNode, Suspense, useContext } from "react";
-import styled from 'styled-components';
-import { Canvas } from '@react-three/fiber';
+import React, { FC, Fragment, ReactNode, Suspense, useContext, useEffect, useRef } from "react";
+import styled, { ThemeContext } from 'styled-components';
+import { Canvas, useThree } from '@react-three/fiber';
 
 import { useSceneDocument } from '../../store';
 import { StaticLayout } from '../StaticLayout';
+import { WebGLCanvasManager } from "../../components/WebGLCanvasManager";
 import { WebGLCanvasManager2 } from "../../components/WebGLCanvasManager2";
 import { sceneComposerIdContext, useSceneComposerId } from '../../common/sceneComposerIdContext';
+
 
 const UnselectableCanvas = styled(Canvas)`
   user-select: none;
@@ -34,13 +36,17 @@ interface SceneLayoutProps {
 const SceneLayout2: FC<SceneLayoutProps> = ({ isViewing, LoadingView = null}) => {
     const sceneComposerId = useContext(sceneComposerIdContext);
     const { sceneLoaded } = useSceneDocument(sceneComposerId);
+    const renderDisplayRef = useRef<HTMLDivElement>(null!);
+
 
     return (
         <StaticLayout
             mainContent={
                 <R3FWrapper sceneLoaded={sceneLoaded} >
                     <Suspense fallback={LoadingView}>
-                        <WebGLCanvasManager2 />
+                        <Fragment>
+                            <WebGLCanvasManager2 />
+                        </Fragment>   
                     </Suspense>
                 </R3FWrapper>
             }

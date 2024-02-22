@@ -9,6 +9,7 @@ import { SceneComposerInternalProps } from '../interfaces/sceneComposerInternal'
 import { RootState, useStore } from '../store';
 import { useSceneComposerId } from '../common/sceneComposerIdContext';
 import SceneLayout from '../layouts/SceneLayout/SceneLayout';
+import SceneLayout2 from '../layouts/SceneLayout/SceneLayout2';
 import { LoadingProgress } from './three-fiber/LoadingProgress';
 
 import sceneDocumentSnapshotCreator from '../utils/sceneDocumentSnapshotCreator';
@@ -119,7 +120,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
 
     useLayoutEffect(() => {
         if (sceneContent?.length > 0) {
-            console.log('sceneConent.length...');
+            console.log('sceneContent...');
             loadScene(sceneContent, { disableMotionIndicator: false});
         }
     }, [sceneContent]);
@@ -148,7 +149,6 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
             );
         }
     }, [onSceneUpdated]);
-
  
     useEffect(() => {
         if (loadSceneError) {
@@ -165,12 +165,12 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
 
 
     return (
-        <SceneLayout 
+        <SceneLayout2 
             isViewing={isViewing}
             LoadingView={
                 <LoadingProgress />
             }
-            onPointerMissed={pointerMissedCallback}
+            //onPointerMissed={pointerMissedCallback}
             />
     )
 };
