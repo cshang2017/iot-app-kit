@@ -96,6 +96,7 @@ interface SceneLayoutProps {
   LoadingView: ReactNode;
   externalLibraryConfig?: ExternalLibraryConfig;
 }
+
 const SceneLayout: FC<SceneLayoutProps> = ({ isViewing, LoadingView = null, externalLibraryConfig }) => {
   const sceneComposerId = useContext(sceneComposerIdContext);
   const valueDataBindingProvider = useStore(sceneComposerId)((state) => state.getEditorConfig)()

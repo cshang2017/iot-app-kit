@@ -6,6 +6,7 @@ export { useSceneComposerApi } from './components/SceneComposerInternal';
 export type { SceneComposerApi } from './components/SceneComposerInternal';
 
 export * from './SceneViewer';
+export * from './SceneViewer2';
 
 export type { Scene } from './models/SceneModels';
 
