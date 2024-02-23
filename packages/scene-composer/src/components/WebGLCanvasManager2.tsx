@@ -5,7 +5,7 @@ import { EditorMainCamera } from './three-fiber/EditorCamera';
 import GroundPlane from './three-fiber/GroundPlane'
 import Environment, { presets } from './three-fiber/Environment';
 import { sceneComposerIdContext } from '../common/sceneComposerIdContext';
-import { useSceneDocument2 } from '../store/Store2';
+import { useSceneDocument } from '../store/Store2';
 import { KnownSceneProperty } from '../interfaces';
 
 import { ROOT_OBJECT_3D_NAME } from '../common/constants';
@@ -14,7 +14,7 @@ import EntityGroup from './three-fiber/EntityGroup';
 export const WebGLCanvasManager2: React.FC = () => {
 
     const sceneComposerId = useContext(sceneComposerIdContext);
-    const { document, getSceneNodeByRef, getSceneProperty } = useSceneDocument2(sceneComposerId);
+    const { document, getSceneNodeByRef, getSceneProperty } = useSceneDocument(sceneComposerId);
 
     const environmentPreset = getSceneProperty<string>(KnownSceneProperty.EnvironmentPreset);
     const rootNodeRefs = document.rootNodeRefs;

@@ -3,7 +3,7 @@ import  createVanilla, { GetState, SetState, StoreApi } from 'zustand/vanilla';
 import { produce, Draft } from 'immer';
 
 import { SceneComposerOperationTypeMap } from './StoreOperations';
-import { RootState2 } from './Store2';
+import { RootState } from './Store2';
 
 export const log = 
     <T extends State>(config: StateCreator<T>): StateCreator<T> => 
@@ -42,7 +42,7 @@ export interface UndoStoreState {
     getStore: Function;
 }
 
-function filterNoHistoryStates(newState: RootState2, currentState: RootState2) {
+function filterNoHistoryStates(newState: RootState, currentState: RootState) {
     return {
       ...newState,
       noHistoryStates: currentState.noHistoryStates,

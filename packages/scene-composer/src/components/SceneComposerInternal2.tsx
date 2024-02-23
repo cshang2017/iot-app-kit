@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Mode } from '@awsui/global-styles';
 
 import { useViewport } from '@iot-app-kit/react-components';
 

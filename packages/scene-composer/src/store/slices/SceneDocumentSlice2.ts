@@ -1,6 +1,6 @@
 import { GetState, SetState } from 'zustand';
 import { isEmpty } from 'lodash';
-import { RootState2 } from '../Store2';
+import { RootState } from '../Store2';
 
 import {
     KnownSceneProperty
@@ -37,7 +37,7 @@ function createEmptyDocumentState(): ISceneDocumentInternal {
     };
 }
 
-export const createSceneDocumentSlice = (set: SetState<RootState2>, get: GetState<RootState2>):
+export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState<RootState>):
 ISceneDocumentSlice =>
 ({
     document: createEmptyDocumentState(),

@@ -1,6 +1,6 @@
 import { GetState, SetState, StoreApi } from 'zustand';
 
-import { RootState2 } from '../Store2';
+import { RootState } from '../Store2';
 import { IEditorConfig } from '../internalInterfaces';
 
 export interface IEditorStateSlice {
@@ -19,9 +19,9 @@ function createDefaultEditorState(): Partial<IEditorStateSlice> {
   }
 
 export const createEditStateSlice = (
-    set: SetState<RootState2>,
-    get: SetState<RootState2>,
-    _api: StoreApi<RootState2>,
+    set: SetState<RootState>,
+    get: SetState<RootState>,
+    _api: StoreApi<RootState>,
 ): IEditorStateSlice => ({
     ...createDefaultEditorState(),
 
