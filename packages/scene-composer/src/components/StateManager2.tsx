@@ -6,20 +6,18 @@ import { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { SceneComposerInternalProps } from '../interfaces/sceneComposerInternal';
-import { RootState, useStore } from '../store';
+import { RootState2, useStore2 } from '../store/Store2';
 import { useSceneComposerId } from '../common/sceneComposerIdContext';
 import SceneLayout from '../layouts/SceneLayout/SceneLayout';
 import SceneLayout2 from '../layouts/SceneLayout/SceneLayout2';
 import { LoadingProgress } from './three-fiber/LoadingProgress';
 
 import sceneDocumentSnapshotCreator from '../utils/sceneDocumentSnapshotCreator';
-import { arrayBuffer } from 'stream/consumers';
 import { 
     setDracoDecoder,
     setGetSceneObjectFunction,
     setTwinMakerSceneMetadataModule 
 } from '../common/GlobalSettings';
-import { disableMotion } from '@awsui/global-styles';
 import { createStandardUriModifier } from '../utils/uriModifiers';
 
 const StateManager2: React.FC<SceneComposerInternalProps> = ({
@@ -38,7 +36,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         loadScene,
         sceneLoaded,
         setSelectedSceneNodeRef
-    } = useStore(sceneComposerId)((state) => state);
+    } = useStore2(sceneComposerId)((state) => state);
 
     const [sceneContentUri, setSceneContentUri] = useState<string>('');
     const [sceneContent, setSceneContent] = useState<string>('');
@@ -137,8 +135,8 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
     useEffect(() => {
         if (onSceneUpdated) {
             console.log('onSceneUpdated ...')
-            return useStore(sceneComposerId).subscribe(
-                (state, old: Pick<RootState, 'document' | 'sceneLoaded'>) => {
+            return useStore2(sceneComposerId).subscribe(
+                (state, old: Pick<RootState2, 'document' | 'sceneLoaded'>) => {
                     if (!state.sceneLoaded || !old.sceneLoaded || state.document === old.document) {
                         return;
                     }

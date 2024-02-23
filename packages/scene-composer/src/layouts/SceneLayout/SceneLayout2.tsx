@@ -2,7 +2,7 @@ import React, { FC, Fragment, ReactNode, Suspense, useContext, useEffect, useRef
 import styled, { ThemeContext } from 'styled-components';
 import { Canvas, useThree } from '@react-three/fiber';
 
-import { useSceneDocument } from '../../store';
+import { useSceneDocument2 } from '../../store/Store2';
 import { StaticLayout } from '../StaticLayout';
 import { WebGLCanvasManager } from "../../components/WebGLCanvasManager";
 import { WebGLCanvasManager2 } from "../../components/WebGLCanvasManager2";
@@ -35,9 +35,7 @@ interface SceneLayoutProps {
 
 const SceneLayout2: FC<SceneLayoutProps> = ({ isViewing, LoadingView = null}) => {
     const sceneComposerId = useContext(sceneComposerIdContext);
-    const { sceneLoaded } = useSceneDocument(sceneComposerId);
-    const renderDisplayRef = useRef<HTMLDivElement>(null!);
-
+    const { sceneLoaded } = useSceneDocument2(sceneComposerId);
 
     return (
         <StaticLayout
