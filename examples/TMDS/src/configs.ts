@@ -5,8 +5,6 @@ import { getEnvCredentials } from './getEnvCredentials';
 
 export const awsCredentials = getEnvCredentials();
 
-// The pre-configured values below is based on the sample workspace created from
-// https://github.com/aws-samples/aws-iot-twinmaker-samples, update them for your own workspace.
 export const region = 'us-east-1';
 export const workspaceId = 'CookieFactory';
 
@@ -33,18 +31,3 @@ export const entityQueries: TwinMakerQuery[] = [
 export const dataBindingTemplate: IDataBindingTemplate = {
   sel_entity: (entityQueries[0] as TwinMakerEntityHistoryQuery).entityId,
 };
-
-// Video Player
-
-/**
- * Simple Mode
- * Specify the video stream name to stream video directly from Kinesis Video Streams
- */
-export const kvsStreamName = '<your-kvs-stream-name>';
-
-/**
- * AWS IoT TwinMaker Mode
- * Specify videoEntityId and videoComponentName from AWS IoT TwinMaker workspace
- */
-export const videoEntityId = undefined;
-export const videoComponentName = undefined;
