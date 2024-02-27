@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 import ab2str from 'arraybuffer-to-string';
-
-import { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { SceneComposerInternalProps } from '../interfaces/sceneComposerInternal';
@@ -154,12 +152,6 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         }
       }, [loadSceneError]);
 
-    const pointerMissedCallback = useCallback(
-        (e: ThreeEvent<PointerEvent>) => {
-        
-            console.log('pointerMissedCallback called..');
-        },[setSelectedSceneNodeRef],
-    );
 
     return (
         <SceneLayout2 
@@ -167,7 +159,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
             LoadingView={
                 <LoadingProgress />
             }
-            //onPointerMissed={pointerMissedCallback}
+
             />
     )
 };
