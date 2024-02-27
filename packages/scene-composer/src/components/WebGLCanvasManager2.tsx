@@ -5,7 +5,7 @@ import { EditorMainCamera } from './three-fiber/EditorCamera';
 import GroundPlane from './three-fiber/GroundPlane'
 import Environment, { presets } from './three-fiber/Environment';
 import { sceneComposerIdContext } from '../common/sceneComposerIdContext';
-import { useSceneDocument } from '../store/Store2';
+import { useSceneDocument } from '../store';
 import { KnownSceneProperty } from '../interfaces';
 
 import { ROOT_OBJECT_3D_NAME } from '../common/constants';

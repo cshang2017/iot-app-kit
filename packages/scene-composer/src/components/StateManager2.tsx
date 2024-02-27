@@ -6,8 +6,7 @@ import { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { SceneComposerInternalProps } from '../interfaces/sceneComposerInternal';
-import { useStore } from '../store/Store2';
-import { RootState } from '../store/Store2';
+import { useStore, RootState } from '../store';
 import { useSceneComposerId } from '../common/sceneComposerIdContext';
 import SceneLayout from '../layouts/SceneLayout/SceneLayout';
 import SceneLayout2 from '../layouts/SceneLayout/SceneLayout2';
@@ -161,7 +160,6 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
             console.log('pointerMissedCallback called..');
         },[setSelectedSceneNodeRef],
     );
-
 
     return (
         <SceneLayout2 

@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { sceneId} from '../configs';
 import { dataSource } from '../dataSource';
-import { SceneViewer as SceneViewerComp } from '@iot-app-kit/scene-composer';
+import { SceneViewer2 as SceneViewerComp } from '@iot-app-kit/scene-composer';
 
 import './SceneViewer.scss';
 

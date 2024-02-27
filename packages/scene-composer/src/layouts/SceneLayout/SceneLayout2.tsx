@@ -2,7 +2,7 @@ import React, { FC, Fragment, ReactNode, Suspense, useContext, useEffect, useRef
 import styled, { ThemeContext } from 'styled-components';
 import { Canvas, useThree } from '@react-three/fiber';
 
-import { useSceneDocument } from '../../store/Store2';
+import { useSceneDocument } from '../../store';
 import { StaticLayout } from '../StaticLayout';
 import { WebGLCanvasManager } from "../../components/WebGLCanvasManager";
 import { WebGLCanvasManager2 } from "../../components/WebGLCanvasManager2";
