@@ -14,7 +14,7 @@ export const SceneLayers3: React.FC = () => {
     const isViewing = useStore(sceneComposerId)((state) => state.isViewing());
     const sceneMetadataModule = getGlobalSettings().twinMakerSceneMetadataModule;
 
-    console.log('SceneLayers3...');
+    console.log('SceneLayers3: isViewing: ', isViewing);
 
     const renderSceneNodesFromLayers = useStore(sceneComposerId)((state) => state.renderSceneNodesFromLayers);
 
@@ -28,7 +28,7 @@ export const SceneLayers3: React.FC = () => {
                                 where r.relationshipName = 'isChildOf'
                                 and e.entityId = 'Mixers_sceneid'`])
 
-                renderSceneNodesFromLayers(nodes, 'layerId123')
+                renderSceneNodesFromLayers(nodes, 'never-used')
 
                 console.log('ProcessQuery completed with result: ', nodes);
             } catch(error) {

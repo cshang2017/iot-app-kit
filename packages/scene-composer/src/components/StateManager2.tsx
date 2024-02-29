@@ -61,6 +61,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         THREE.Cache.enabled = true;
 
         setEditorConfig({
+            operationMode: config.mode,
             uriModifier: standardUriModifier,
         })
 

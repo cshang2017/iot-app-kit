@@ -94,9 +94,6 @@ export const renderSceneNodesFromLayers = (
         // Clean up refs for current version
         deleteNodeFromComponentNodeMap(document.componentNodeMap, document.nodeMap[newNode.ref]);
 
-        // TODO: merge the new change into old node instead of fully replacing it.
-        // e.g. combine the layerIds list, do not change the component ref when possible to avoid
-        // unnecessary rerender
         document.nodeMap[newNode.ref] = newNode;
         addNodeToComponentNodeMap(document.componentNodeMap, newNode);
       }
@@ -123,13 +120,6 @@ export const renderSceneNodesFromLayers = (
   Object.keys(childRefUpdates).forEach((parentRef) => {
     const childRefs = childRefUpdates[parentRef];
     document.nodeMap[parentRef].childRefs = childRefs;
-  });
-
-  // Remove previous nodes from the layer that are not available any more
-  existingNodeRefs.forEach((ref) => {
-    if (document.nodeMap[ref].properties.layerIds?.includes(layerId) && !newNodeRefs.find((newRef) => newRef === ref)) {
-      removeNode(document, ref, logger);
-    }
   });
 };
 
