@@ -67,6 +67,7 @@ const ChildGroup = ({ node }: { node: ISceneNodeInternal }) => {
 };
 
 const EntityGroup = ({ node }: IEntityGroupProps): JSX.Element => {
+
   const sceneComposerId = useContext(sceneComposerIdContext);
   const object3dRef = useRef<THREE.Object3D>();
 

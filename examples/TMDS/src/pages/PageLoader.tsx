@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { ReactNode, Suspense } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { Header } from '@cloudscape-design/components';
 
 function PageLoader({ children }: { children: ReactNode }) {

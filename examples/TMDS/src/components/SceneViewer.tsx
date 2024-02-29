@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { sceneId} from '../configs';
 import { dataSource } from '../dataSource';
-import { SceneViewer2 as SceneViewerComp } from '@iot-app-kit/scene-composer';
+import { SceneViewer3 as SceneViewerComp } from '@iot-app-kit/scene-composer';
 
 import './SceneViewer.scss';
 
@@ -15,6 +15,8 @@ interface SceneViewerProps {
 
 const SceneViewer: FC<SceneViewerProps> = ({ onSelectionChanged, onWidgetClick }) => {
 
+    const sceneMetadataModule = dataSource.sceneMetadataModule(sceneId);
+
   return (
     <div className="SceneViewer">
       <SceneViewerComp
@@ -22,6 +24,7 @@ const SceneViewer: FC<SceneViewerProps> = ({ onSelectionChanged, onWidgetClick }
         sceneLoader={sceneLoader}
         onSelectionChanged={onSelectionChanged}
         onWidgetClick={onWidgetClick}
+        sceneMetadataModule={sceneMetadataModule}
       />
     </div>
   );

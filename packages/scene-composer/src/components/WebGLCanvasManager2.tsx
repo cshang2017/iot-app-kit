@@ -14,13 +14,17 @@ import EntityGroup from './three-fiber/EntityGroup';
 export const WebGLCanvasManager2: React.FC = () => {
 
     const sceneComposerId = useContext(sceneComposerIdContext);
-    const { document, getSceneNodeByRef, getSceneProperty } = useSceneDocument(sceneComposerId);
+    const { document, sceneLoaded, getSceneNodeByRef, getSceneProperty } = useSceneDocument(sceneComposerId);
+
 
     const environmentPreset = getSceneProperty<string>(KnownSceneProperty.EnvironmentPreset);
     const rootNodeRefs = document.rootNodeRefs;
 
-    console.log('load WebGLVanvasManager2...');
+    console.log('WebGLVanvasManager2, sceneLoad status: ', sceneLoaded);
+    console.log('WebGLVanvasManager2, rootNodsRefs: ', rootNodeRefs);
     return (
+<>
+{ console.log('WebGL2 Return+')}
     <React.Fragment>
         <EditorMainCamera />
         {environmentPreset && environmentPreset in presets && (
@@ -30,10 +34,13 @@ export const WebGLCanvasManager2: React.FC = () => {
             {rootNodeRefs &&
             rootNodeRefs.map((rootNodeRef) => {
                 const node = getSceneNodeByRef(rootNodeRef);
+                console.log('WebGLCanvasManager: node: ', node);
                 return node && <EntityGroup key={rootNodeRef} node={node} />;
             })}
         </group>
         <GroundPlane />
     </React.Fragment>
+    { console.log('WebGL2 Return-')}
+    </>
     )
 }

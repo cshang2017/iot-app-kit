@@ -36,6 +36,7 @@ export const processQueries = async (
       rows.push(...r.rows);
     }
   });
+  console.log('ProcessQueries results: ', results);
 
   const sceneNodes: Record<string, ISceneNodeInternal> = {};
 

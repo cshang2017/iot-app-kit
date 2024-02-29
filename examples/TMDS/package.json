@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "vite",
+    "dev": "GENERATE_SOURCEMAP=false && vite",
     "build": "vite build",
     "serve": "vite preview"
   },

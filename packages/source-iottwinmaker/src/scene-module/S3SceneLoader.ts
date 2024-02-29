@@ -34,6 +34,7 @@ export class S3SceneLoader implements SceneLoader {
   }
 
   getSceneUri = async (): Promise<string | null> => {
+    console.log('getSceneUri ...');
     const promises: [
       Promise<GetWorkspaceCommandOutput>,
       Promise<GetSceneCommandOutput>
@@ -64,6 +65,8 @@ export class S3SceneLoader implements SceneLoader {
   };
 
   getSceneObject = (uri: string): Promise<ArrayBuffer> | null => {
+    console.log('s3 start to retrieve: ', uri);
+
     const s3BucketAndKey = getS3BucketAndKey(uri);
     if (!s3BucketAndKey) return null;
 
@@ -74,6 +77,7 @@ export class S3SceneLoader implements SceneLoader {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const res = await new Response(data.Body as any).arrayBuffer();
           resolve(res);
+          console.log('s3 file retrieved for ', uri);
         })
         .catch((error) => {
           reject(error);

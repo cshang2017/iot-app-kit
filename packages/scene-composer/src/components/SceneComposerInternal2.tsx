@@ -19,11 +19,18 @@ export const SceneComposerInternal2: React.FC<SceneComposerInternalProps> = ({
     const currentSceneComposerId = useMemo(() => sceneComposerId ?? generateUUID(), [sceneComposerId]);
     const { viewport } = useViewport();
 
+    console.log('SceneComposerInternal2...')
+
     return (
+        <>
+        { console.log('SceneComposerInternal2 Return+')}
+        
         <IntlProvider locale={config.locale}>
             <sceneComposerIdContext.Provider value={currentSceneComposerId}>
                 <StateManager2 config={config} {...props} viewport={props.viewport || viewport}/>
             </sceneComposerIdContext.Provider>
         </IntlProvider>
+        { console.log('SceneComposerInternal2 Return-')}
+        </>
         )
 }

@@ -23,6 +23,7 @@ export class KGDataModule implements TwinMakerKGQueryDataModule {
     resultsPerPage,
     maxPagesCount,
   }: executeQueryParams): Promise<ExecuteQueryCommandOutput> => {
+    console.log('ExecuteQuery: ', queryStatement);
     const rows: Row[] = [];
     let columnDescriptions: ColumnDescription[] = [];
     let $metadata = {};

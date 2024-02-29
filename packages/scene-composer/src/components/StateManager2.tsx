@@ -6,8 +6,8 @@ import * as THREE from 'three';
 import { SceneComposerInternalProps } from '../interfaces/sceneComposerInternal';
 import { useStore, RootState } from '../store';
 import { useSceneComposerId } from '../common/sceneComposerIdContext';
-import SceneLayout from '../layouts/SceneLayout/SceneLayout';
-import SceneLayout2 from '../layouts/SceneLayout/SceneLayout2';
+//import SceneLayout from '../layouts/SceneLayout/SceneLayout';
+import SceneLayout3 from '../layouts/SceneLayout/SceneLayout3';
 import { LoadingProgress } from './three-fiber/LoadingProgress';
 
 import sceneDocumentSnapshotCreator from '../utils/sceneDocumentSnapshotCreator';
@@ -18,6 +18,7 @@ import {
 } from '../common/GlobalSettings';
 import { createStandardUriModifier } from '../utils/uriModifiers';
 
+
 const StateManager2: React.FC<SceneComposerInternalProps> = ({
     sceneLoader,
     sceneMetadataModule,
@@ -27,6 +28,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
     viewport
 }: SceneComposerInternalProps) => {
 
+    console.log('StateManager2 +')
     const sceneComposerId = useSceneComposerId();
 
     const {
@@ -45,8 +47,13 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         [sceneContentUri],
       );    
 
-    console.log('sceneComposerId: ', {sceneComposerId});
-
+    useEffect(() => {
+        if (sceneMetadataModule) {
+            console.log('StateManager2: set sceneMetadataModule...');
+            setTwinMakerSceneMetadataModule(sceneMetadataModule);
+        }
+    }, [sceneMetadataModule])
+   
     const isViewing = config.mode === 'Viewing';
 
     // important to load glb files
@@ -57,6 +64,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
             uriModifier: standardUriModifier,
         })
 
+        console.log('StateManager2: setEditorConfig..'); 
     }, [standardUriModifier])
 
     useEffect(() => {
@@ -65,25 +73,20 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         }
       }, [config.dracoDecoder]);
 
+
     // key to load glb files.
     useEffect(() => {
         setGetSceneObjectFunction(sceneLoader.getSceneObject);
+        console.log('StateManager2: setGetSceneObjectFunction..');
       }, [sceneLoader]);
 
     useEffect(() => {
-        if (sceneMetadataModule) {
-            console.log('set sceneMetadataModule...');
-            setTwinMakerSceneMetadataModule(sceneMetadataModule);
-        }
-    }, [sceneMetadataModule])
-
-    useEffect(() => {
-        console.log('sceneLoader..');
+        console.log('StateManager2: sceneLoader..');
         sceneLoader
             .getSceneUri()
             .then((uri) => {
                 if (uri) {
-                    console.log('scene uri: ', {uri});
+                    console.log('StateManager2: scene uri: ', {uri});
                     setSceneContentUri(uri);
                 } else {
                     throw new Error('Got empty scene url');
@@ -111,19 +114,20 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
                         setLoadSceneError(error || new Error('Failed to fetch scene content'));
                     });
             }
+            console.log('StateManager2: setSceneContent..');
         }
     }, [sceneContentUri])
 
     useLayoutEffect(() => {
         if (sceneContent?.length > 0) {
-            console.log('sceneContent...');
+            console.log('StateManager2: sceneContent...');
             loadScene(sceneContent, { disableMotionIndicator: false});
         }
     }, [sceneContent]);
 
     useEffect(() => {
         if (onSceneLoaded && sceneLoaded) {
-            console.log('onSceneLoaded..')
+            console.log('StateManager2: onSceneLoaded..')
             setTimeout(() => {
                 onSceneLoaded();
             }, 1);
@@ -132,7 +136,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
 
     useEffect(() => {
         if (onSceneUpdated) {
-            console.log('onSceneUpdated ...')
+            console.log('StateManager2: onSceneUpdated ...')
             return useStore(sceneComposerId).subscribe(
                 (state, old: Pick<RootState, 'document' | 'sceneLoaded'>) => {
                     if (!state.sceneLoaded || !old.sceneLoaded || state.document === old.document) {
@@ -152,15 +156,19 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         }
       }, [loadSceneError]);
 
-
+      console.log('StateManager2 - ');
     return (
-        <SceneLayout2 
+        <>
+        { console.log('StateManager2 Return+')}
+        <SceneLayout3 
             isViewing={isViewing}
             LoadingView={
                 <LoadingProgress />
             }
 
             />
+        { console.log('StageManager2 Return-')}
+        </>
     )
 };
 
