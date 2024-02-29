@@ -25,7 +25,7 @@ export const processQueries3 = async (
     queries: string[],
     postProcessNode?: (node: ISceneNodeInternal) => void,
 ): Promise<ISceneNodeInternal[]> => {
-    console.log('ProcessQueries2: ', queries);
+    //console.log('ProcessQueries3: ', queries);
 
     // ensure sceneMetadataModule exist
     const sceneMetadataModule = getGlobalSettings().twinMakerSceneMetadataModule;
@@ -43,7 +43,6 @@ export const processQueries3 = async (
             rows.push(...r.rows);
         }
     })
-    console.log('ProcessQueries results in rows: ', rows);
 
     const sceneNodes: Record<string, ISceneNodeInternal> = {};
 
@@ -101,6 +100,8 @@ export const processQueries3 = async (
           node.parentRef = undefined;
         }
       }
+
+    //console.log('ProcessQueries: SceneNodes: ', sceneNodes)
 
     return Object.values(sceneNodes);
 }

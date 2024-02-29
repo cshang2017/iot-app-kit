@@ -25,7 +25,7 @@ import {
   removeNode,
   renderSceneNodesFromLayers,
   updateSceneNode,
-} from '../helpers/sceneDocumentHelpers';
+} from '../helpers/sceneDocumentHelpers3';
 import serializationHelpers, { IDeserializeOptions } from '../helpers/serializationHelpers';
 import {
   DisplayMessageCategory,

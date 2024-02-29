@@ -2,21 +2,16 @@
   "name": "TMDS",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
-    "@iot-app-kit/components": "*",
-    "@iot-app-kit/core": "*",
-    "@iot-app-kit/react-components": "*",
-    "@iot-app-kit/related-table": "*",
     "@iot-app-kit/scene-composer": "*",
     "@iot-app-kit/source-iotsitewise": "*",
     "@iot-app-kit/source-iottwinmaker": "*",
-    "@iot-app-kit/table": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.9.6",
     "react-router-dom": "^6.14.2",
-    "web-vitals": "^3.4.0",
-    "zustand": "^3.7.2"
+    "web-vitals": "^3.4.0"
   },
   "scripts": {
     "start": "vite",
@@ -28,18 +23,6 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
     ]
   },
   "devDependencies": {

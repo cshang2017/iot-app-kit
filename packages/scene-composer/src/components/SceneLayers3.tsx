@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react';
+import React, { useContext, useLayoutEffect} from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -18,7 +18,7 @@ export const SceneLayers3: React.FC = () => {
 
     const renderSceneNodesFromLayers = useStore(sceneComposerId)((state) => state.renderSceneNodesFromLayers);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const fetchData = async () => { 
             try {
                 const nodes = await processQueries3(
@@ -27,6 +27,8 @@ export const SceneLayers3: React.FC = () => {
                                 match (entity)-[r]->(e)
                                 where r.relationshipName = 'isChildOf'
                                 and e.entityId = 'Mixers_sceneid'`])
+
+                renderSceneNodesFromLayers(nodes, 'layerId123')
 
                 console.log('ProcessQuery completed with result: ', nodes);
             } catch(error) {

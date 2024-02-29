@@ -47,7 +47,7 @@ const StateManager2: React.FC<SceneComposerInternalProps> = ({
         [sceneContentUri],
       );    
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (sceneMetadataModule) {
             console.log('StateManager2: set sceneMetadataModule...');
             setTwinMakerSceneMetadataModule(sceneMetadataModule);
