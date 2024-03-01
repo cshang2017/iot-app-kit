@@ -27,8 +27,6 @@ export const OverlayPanelVisibilityToggle: React.FC = () => {
   const getSceneProperty = useStore(sceneComposerId)((state) => state.getSceneProperty);
   const isViewing = useStore(sceneComposerId)((state) => state.isViewing());
 
-  // When the document settings is changed from other places (e.g. undo/redo),
-  // sync the view options visibility value with document settings.
   useEffect(() => {
     if (!isViewing && !!overlayPanelVisible !== !!documentSettings.overlayPanelVisible) {
       toggleComponentVisibility(Component.DataOverlaySubType.OverlayPanel);

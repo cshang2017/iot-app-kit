@@ -7,7 +7,7 @@ import { sceneComposerIdContext } from '../../../common/sceneComposerIdContext';
 import { useEditorState } from '../../../store';
 import { ToolbarOrientation } from '../common/types';
 
-import { HistoryItemGroup, ObjectItemGroup, SceneItemGroup, CancelMenuItem } from './items';
+import { SceneItemGroup, CancelMenuItem } from './items';
 
 export const FLOATING_TOOLBAR_VERTICAL_ORIENTATION_BUFFER = 10;
 
@@ -74,9 +74,7 @@ export function FloatingToolbar({
     <FloatingToolbarContainer ref={measuredRef}>
       {!addingWidget && enableDefaultItems && (
         <ToolbarItemGroup isVertical={toolbarOrientation === ToolbarOrientation.Vertical}>
-          {!isViewing && <HistoryItemGroup toolbarOrientation={toolbarOrientation} />}
           <SceneItemGroup isViewing={isViewing} toolbarOrientation={toolbarOrientation} canvasHeight={canvasHeightPx} />
-          {!isViewing && <ObjectItemGroup toolbarOrientation={toolbarOrientation} canvasHeight={canvasHeightPx} />}
         </ToolbarItemGroup>
       )}
       {!!addingWidget && enableDefaultItems && (

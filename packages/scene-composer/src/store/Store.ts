@@ -1,7 +1,7 @@
 import create, { StateCreator, UseStore } from 'zustand';
 import shallow from 'zustand/shallow';
 
-import { immer, undoMiddleware, UndoState } from './middlewares';
+import { immer} from './middlewares';
 
 import { SceneComposerOperation } from './StoreOperations';
 
@@ -69,7 +69,6 @@ export type RootState =
   IEditorStateSlice &
 
   ISharedState &
-  UndoState &
   INodeErrorStateSlice;
 
 /**
@@ -234,10 +233,9 @@ const stateCreator: StateCreator<RootState> = (set, get, api) => ({
 
 const createStateImpl: 
     () => UseStore<RootState> // return type
-    = () => create<RootState>(undoMiddleware(immer(stateCreator)));
+    = () => create<RootState>(immer(stateCreator));
 
-// TODO: currently undoMiddleware will record editor state changes, such as select/deselect object.
-// We may want to fine-tune the undo/redo experience.
+
 /**
  
 
