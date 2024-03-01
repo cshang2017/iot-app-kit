@@ -11,6 +11,7 @@ import { sceneComposerIdContext, useSceneComposerId } from '../../common/sceneCo
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useDynamicScene from '../../hooks/useDynamicScene';
 import { SceneLayers3 } from '../../components/SceneLayers3';
+import { FloatingToolbar } from '../../components/toolbars';
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const SceneLayout3: FC<SceneLayoutProps> = ({ isViewing, LoadingView = null}) =>
                       <SceneLayers3 />
                     </QueryClientProvider>
                   )}
+                <FloatingToolbar isViewing={isViewing} />
                 <R3FWrapper sceneLoaded={sceneLoaded} >
                     <Suspense fallback={LoadingView}>
                         <Fragment>

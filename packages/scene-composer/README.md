@@ -93,3 +93,15 @@ localStorage.debug = '*'; // by default gives you all logging output
 localStorage.debug = '*,-verbose:*'; // don't show verbose logging
 localStorage.debug = 'ruleEvaluator*'; // only show messages related to the ruleEvaluator component
 ```
+
+
+----
+## branches:
+
+### tmds2
+Goden version of code. 
+Trimed off Matterport code. 
+
+### SceneViewer 
+parent branch: tmds2
+remove most of editor functionality.

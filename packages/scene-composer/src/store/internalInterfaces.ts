@@ -1,33 +1,45 @@
+import { MapControls as MapControlsImpl, OrbitControls as OrbitControlsImpl 
+} from '../three/OrbitControls';
+import { PointerLockControls as PointerLockControlsImpl 
+} from '../three/PointerLockControls';
+
 import { IErrorDetails } from '../common/errors';
 import {
-  SelectionChangedEventCallback,
   IAnchorComponent,
+  IAnimationComponent,
   ICameraComponent,
+
   IColorOverlayComponent,
+  IDataOverlayComponent,
+  IEntityBindingComponent,
+
   ILightComponent,
   IModelRefComponent,
   IMotionIndicatorComponent,
+
+  IPlaneGeometryComponent,
   IRuleBasedMap,
   IRuleStatement,
+
   ISceneComponent,
   ISceneDocument,
   ISceneNode,
-  IAnimationComponent,
+  ISubModelRefComponent,
+
   ITransform,
   ITransformConstraint,
   IValueDataBinding,
   IValueDataBindingProvider,
-  URIModifier,
+
   KnownComponentType,
+
+  SelectionChangedEventCallback,
+  URIModifier,
   WidgetClickEventCallback,
-  ISubModelRefComponent,
-  IDataOverlayComponent,
-  IEntityBindingComponent,
-  IPlaneGeometryComponent,
 } from '../interfaces';
-import { OperationMode, ShowAssetBrowserCallback } from '../interfaces/sceneComposerInternal';
-import { MapControls as MapControlsImpl, OrbitControls as OrbitControlsImpl } from '../three/OrbitControls';
-import { PointerLockControls as PointerLockControlsImpl } from '../three/PointerLockControls';
+import { 
+    OperationMode, ShowAssetBrowserCallback 
+} from '../interfaces/sceneComposerInternal';
 
 export type ISerializationErrorDetails = IErrorDetails;
 
@@ -58,12 +70,13 @@ export interface IDisplayMessage {
 }
 
 export interface IEditorConfig {
-  operationMode?: OperationMode;
-  uriModifier?: URIModifier;
-  valueDataBindingProvider?: IValueDataBindingProvider;
-  showAssetBrowserCallback?: ShowAssetBrowserCallback;
-  onWidgetClick?: WidgetClickEventCallback;
-  onSelectionChanged?: SelectionChangedEventCallback;
+
+    onSelectionChanged?: SelectionChangedEventCallback;
+    onWidgetClick?: WidgetClickEventCallback;
+    operationMode?: OperationMode;
+    showAssetBrowserCallback?: ShowAssetBrowserCallback;
+    uriModifier?: URIModifier;
+    valueDataBindingProvider?: IValueDataBindingProvider;
 }
 
 /******************************************************************************
@@ -79,6 +92,13 @@ export enum SceneNodeRuntimeProperty {
   LayerIds = 'layerIds', // The layer ids that the node is rendered from.
 }
 
+export interface ISceneDocumentInternal extends ISceneDocument {
+    unit: string; // unit is not nullable internally, default to 'meter'
+    ruleMap: Record<string, IRuleBasedMapInternal>;
+    nodeMap: Record<string, ISceneNodeInternal>;
+    componentNodeMap: { [type in KnownComponentType | string]?: Record<string, string[]> }; // record of node.ref to component.ref[]
+  }
+
 export interface ISceneNodeInternal extends ISceneNode {
   // below fields are not nullable internally
   ref: string;
@@ -93,13 +113,6 @@ export interface ISceneNodeInternal extends ISceneNode {
   >;
 }
 
-export interface ISceneDocumentInternal extends ISceneDocument {
-  unit: string; // unit is not nullable internally, default to 'meter'
-  ruleMap: Record<string, IRuleBasedMapInternal>;
-  nodeMap: Record<string, ISceneNodeInternal>;
-  componentNodeMap: { [type in KnownComponentType | string]?: Record<string, string[]> }; // record of node.ref to component.ref[]
-}
-
 export interface ISceneComponentInternal extends ISceneComponent {
   // unique id for the component for internal reference
   ref: string;
@@ -112,34 +125,27 @@ export interface IDataBoundSceneComponentInternal extends ISceneComponentInterna
 /******************************************************************************
  * Components
  ******************************************************************************/
-
-export type ILightComponentInternal = ISceneComponentInternal & ILightComponent;
-
-export type ICameraComponentInternal = ISceneComponentInternal & ICameraComponent;
-
-export type IModelRefComponentInternal = ISceneComponentInternal & IModelRefComponent;
-
-export type ISubModelRefComponentInternal = ISceneComponentInternal & ISubModelRefComponent;
-
 export type IAnchorComponentInternal = IDataBoundSceneComponentInternal & IAnchorComponent;
-
 export type IAnimationComponentInternal = ISceneComponentInternal & IAnimationComponent;
-
+export type ICameraComponentInternal = ISceneComponentInternal & ICameraComponent;
 export type IColorOverlayComponentInternal = IDataBoundSceneComponentInternal & IColorOverlayComponent;
-
-export type IMotionIndicatorComponentInternal = ISceneComponentInternal & IMotionIndicatorComponent;
-
 export type IDataOverlayComponentInternal = ISceneComponentInternal & IDataOverlayComponent;
 
 export type IEntityBindingComponentInternal = IDataBoundSceneComponentInternal & IEntityBindingComponent;
+export type ILightComponentInternal = ISceneComponentInternal & ILightComponent;
 
+export type IMotionIndicatorComponentInternal = ISceneComponentInternal & IMotionIndicatorComponent;
+export type IModelRefComponentInternal = ISceneComponentInternal & IModelRefComponent;
 export type IPlaneGeometryComponentInternal = ISceneComponentInternal & IPlaneGeometryComponent;
+export type ISubModelRefComponentInternal = ISceneComponentInternal & ISubModelRefComponent;
 
 /******************************************************************************
  * Type magic...
  ******************************************************************************/
 
-export const isISceneNodeInternal = (item: ISceneNodeInternal | undefined): item is ISceneNodeInternal => {
+export const isISceneNodeInternal = (
+    item: ISceneNodeInternal | undefined
+): item is ISceneNodeInternal => {
   return !!item;
 };
 

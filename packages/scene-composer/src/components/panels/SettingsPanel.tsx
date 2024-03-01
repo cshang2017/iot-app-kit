@@ -17,7 +17,7 @@ import { ExpandableInfoSection } from './CommonPanelComponents';
 import { SceneDataBindingTemplateEditor, SceneTagSettingsEditor } from './scene-settings';
 import { ComponentVisibilityToggle } from './scene-settings/ComponentVisibilityToggle';
 import { OverlayPanelVisibilityToggle } from './scene-settings/OverlayPanelVisibilityToggle';
-import { ConvertSceneSettings } from './scene-settings/ConvertSceneSettings';
+
 import { FogSettingsEditor } from './scene-settings/FogSettingsEditor';
 import { SceneBackgroundSettingsEditor } from './scene-settings/SceneBackgroundSettingsEditor';
 import { GroundPlaneSettingsEditor } from './scene-settings/GroundPlaneSettingsEditor';
@@ -225,7 +225,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ valueDataBindingPr
           })}
           defaultExpanded={false}
         >
-          <ConvertSceneSettings />
         </ExpandableInfoSection>
       )}
     </Fragment>

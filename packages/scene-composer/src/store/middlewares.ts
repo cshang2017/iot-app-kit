@@ -10,23 +10,6 @@ import { RootState } from './Store';
 const LOG = new DebugLogger('stateStore');
 
 /**
- * Log the update to the state store, the prev state and the updated state.
- */
-export const log =
-  <T extends State>(config: StateCreator<T>): StateCreator<T> =>
-  (set, get, api) => {
-    return config(
-      (...args) => {
-        LOG.verbose('old state', get());
-        set(...args);
-        LOG.verbose('new state', get());
-      },
-      get,
-      api,
-    );
-  };
-
-/**
  * Make nested state update simple.
  */
 export const immer =

@@ -42,44 +42,99 @@ export interface ISceneDocumentSnapshot {
   serialize(specVersion: string, ...stringifyArgs): string;
 }
 
+// SceneDoc map to scene
 export interface ISceneDocument {
   nodeMap: Record<string, ISceneNode>;
+  properties?: Partial<Record<KnownSceneProperty, any>>;
   ruleMap: Record<string, IRuleBasedMap>;
   rootNodeRefs: string[];
+  specVersion?: string;
   unit?: string;
   version: string;
-  properties?: Partial<Record<KnownSceneProperty, any>>;
-  specVersion?: string;
 }
 
+// ISceneNode map to entity
 export interface ISceneNode {
-  // ref is optional when used in APIs to create nodes
-  ref?: string;
+  childRefs?: string[];
+  components?: ISceneComponent[];
   name?: string;
+  parentRef?: string;
+  properties?: Partial<Record<'alwaysVisible' | 'hiddenWhileImmersive', boolean | string>>;
+
+  ref?: string;  // ref is optional when used in APIs to create nodes
   transform?: ITransform;
   transformConstraint?: ITransformConstraint;
-  components?: ISceneComponent[];
-  parentRef?: string;
-  childRefs?: string[];
-  properties?: Partial<Record<'alwaysVisible' | 'hiddenWhileImmersive', boolean | string>>;
 }
 
 export enum KnownSceneProperty {
-  EnvironmentPreset = 'environmentPreset',
-  DataBindingConfig = 'dataBindingConfig',
-  ComponentSettings = 'componentSettings',
-  LayerIds = 'layerIds',
-  SceneRootEntityId = 'sceneRootEntityId',
-  TagCustomColors = 'tagCustomColors',
-  FogSettings = 'fogSettings',
-  SceneBackgroundSettings = 'sceneBackgroundSettings',
-  GroundPlaneSettings = 'groundPlaneSettings',
-  FogCustomColors = 'fogCustomColors',
-  BackgroundCustomColors = 'backgroundCustomColors',
-  LayerDefaultRefreshInterval = 'layerDefaultRefreshInterval',
-  GeometryCustomColors = 'geometryCustomColors',
-  GroundCustomColors = 'groundCustomColors,',
+    BackgroundCustomColors = 'backgroundCustomColors',
+    ComponentSettings = 'componentSettings',
+    DataBindingConfig = 'dataBindingConfig',
+    EnvironmentPreset = 'environmentPreset',
+
+    FogCustomColors = 'fogCustomColors',
+    FogSettings = 'fogSettings',
+
+    GeometryCustomColors = 'geometryCustomColors',
+    GroundCustomColors = 'groundCustomColors,',
+    GroundPlaneSettings = 'groundPlaneSettings',
+
+    LayerDefaultRefreshInterval = 'layerDefaultRefreshInterval',  
+    LayerIds = 'layerIds',
+
+    SceneBackgroundSettings = 'sceneBackgroundSettings',
+    SceneRootEntityId = 'sceneRootEntityId',
+    TagCustomColors = 'tagCustomColors',
 }
+
+/************************************************
+ * Scene Resource
+ ************************************************/
+export interface AddingWidgetInfo {
+    type?: KnownComponentType;
+    node: ISceneNodeInternal;
+  }
+  
+  export interface IFogSettings {
+    color: string;
+    near: number;
+    far: number;
+  }
+  
+  export interface IGroundPlaneSettings {
+    color?: string;
+    textureUri?: string;
+    opacity: number;
+  }
+  
+  export interface ISceneBackgroundSetting {
+      color?: string;
+      textureUri?: string;
+    }
+  
+  export interface MeshStyle {
+      color?: string | number;
+      opacity?: number;
+      transparent?: boolean;
+    }
+  
+  export interface SceneResourceInfo {
+      type: SceneResourceType;
+      value: string;
+    }
+  
+  export enum SceneResourceType {
+      Icon = 'Icon',
+      Color = 'Color',
+      Number = 'Number',
+      Opacity = 'Opacity',
+    }
+  
+  export interface StyleTarget {
+      dataBindingContext: unknown;
+      style: MeshStyle;
+    }
+
 
 /************************************************
  * Scene Composer Control APIs
@@ -87,7 +142,6 @@ export enum KnownSceneProperty {
 
 export type CameraControlMode = 'transition' | 'teleport';
 export type CameraControlsType = 'orbit' | 'pan' | 'immersive' | 'pointerLock';
-export type TransformControlMode = 'translate' | 'rotate' | 'scale';
 export enum CameraViewAxisValues {
   Front = 'front',
   Back = 'back',
@@ -96,11 +150,12 @@ export enum CameraViewAxisValues {
   Top = 'top',
   Bottom = 'bottom',
 }
+export type TransformControlMode = 'translate' | 'rotate' | 'scale';
 
 // an object ref or a precise camera setting
+export type CameraTarget = NamedCameraTarget | FixedCameraTarget;
 export type FixedCameraTarget = { position: Vector3; target: Vector3 };
 export type NamedCameraTarget = string;
-export type CameraTarget = NamedCameraTarget | FixedCameraTarget;
 
 export type URIModifier = (uri: string) => string;
 
@@ -109,58 +164,10 @@ export type CreateErrorViewCallback = (error: Error) => ReactElement;
 /************************************************
  * Scene Namespace
  ************************************************/
-
 const IotTwinMakerNamespace = 'iottwinmaker.common';
 export const IotTwinMakerNamespaceSeparator = ':';
 export const IotTwinMakerIconNamespace = `${IotTwinMakerNamespace}.icon`;
 export const IotTwinMakerColorNamespace = `${IotTwinMakerNamespace}.color`;
 export const IotTwinMakerNumberNamespace = `${IotTwinMakerNamespace}.number`;
 export const IotTwinMakerOpacityNamespace = `${IotTwinMakerNamespace}.opacity`;
-/************************************************
- * Scene Resource
- ************************************************/
 
-export enum SceneResourceType {
-  Icon = 'Icon',
-  Color = 'Color',
-  Number = 'Number',
-  Opacity = 'Opacity',
-}
-
-export interface SceneResourceInfo {
-  type: SceneResourceType;
-  value: string;
-}
-
-export interface AddingWidgetInfo {
-  type?: KnownComponentType;
-  node: ISceneNodeInternal;
-}
-
-export interface MeshStyle {
-  color?: string | number;
-  opacity?: number;
-  transparent?: boolean;
-}
-
-export interface StyleTarget {
-  dataBindingContext: unknown;
-  style: MeshStyle;
-}
-
-export interface IFogSettings {
-  color: string;
-  near: number;
-  far: number;
-}
-
-export interface ISceneBackgroundSetting {
-  color?: string;
-  textureUri?: string;
-}
-
-export interface IGroundPlaneSettings {
-  color?: string;
-  textureUri?: string;
-  opacity: number;
-}

@@ -18,9 +18,24 @@ export enum DistanceUnits {
   miles = 'miles',
 }
 
+export interface INavLink {
+    destination?: string;
+    params?: Record<string, any>;
+  } 
+
 export interface IOrientation {
   position: Vector3;
   rotation: Vector3;
+}
+
+export interface IRuleBasedMap {
+  statements: IRuleStatement[];
+}
+  
+export interface IRuleStatement {
+  expression: string;
+  target: string;
+  targetMetadata?: TargetMetadata;
 }
 
 export interface ITransform {
@@ -33,8 +48,10 @@ export interface ITransformConstraint {
   snapToFloor?: boolean;
 }
 
-export type { ITwinMakerEntityDataBindingContext, IValueDataBinding } 
-from '@iot-app-kit/source-iottwinmaker';
+export type { 
+    ITwinMakerEntityDataBindingContext, 
+    IValueDataBinding 
+} from '@iot-app-kit/source-iottwinmaker';
 
 export interface TargetMetadata {
   color?: string;
@@ -42,17 +59,6 @@ export interface TargetMetadata {
   iconName?: string;
 }
 
-export interface INavLink {
-  destination?: string;
-  params?: Record<string, any>;
-}
 
-export interface IRuleStatement {
-  expression: string;
-  target: string;
-  targetMetadata?: TargetMetadata;
-}
 
-export interface IRuleBasedMap {
-  statements: IRuleStatement[];
-}
+

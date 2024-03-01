@@ -61,8 +61,6 @@ export interface IEditorStateSlice {
   clearMessages(): void;
   getMessages(): IDisplayMessage[];
 
-  convertSceneModalVisible?: boolean;
-  setConvertSceneModalVisibility(visible: boolean): void;
 
   // Selection and highlights
   selectedSceneNodeRef?: string;
@@ -216,13 +214,6 @@ export const createEditStateSlice = (
 
     getMessages() {
       return get().messages;
-    },
-
-    setConvertSceneModalVisibility(visible) {
-      set((draft) => {
-        draft.convertSceneModalVisible = visible;
-        draft.lastOperation = 'setConvertSceneModalVisibility';
-      });
     },
 
     setSelectedSceneNodeRef(nodeRef?: string) {

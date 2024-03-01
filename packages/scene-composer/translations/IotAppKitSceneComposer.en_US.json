@@ -15,10 +15,6 @@
     "note": "Light Type in a dropdown menu",
     "text": "Ambient"
   },
-  "+RIFYb": {
-    "note": "alert body text",
-    "text": "All nodes have been converted successfully"
-  },
   "+SQx9E": {
     "note": "Menu Item label",
     "text": "Add component"
@@ -87,17 +83,9 @@
     "note": "Abbreviation for blue",
     "text": "B"
   },
-  "1ZqGeQ": {
-    "note": "checkbox label",
-    "text": "Auto update (every 30s)"
-  },
   "1cVQu5": {
     "note": "label for an input component selecting number of arrows",
     "text": "# of arrows"
-  },
-  "1fLT/q": {
-    "note": "button label",
-    "text": "Cancel"
   },
   "1kXRWn": {
     "note": "Progress Bar status",
@@ -243,10 +231,6 @@
     "note": "Menu Item label",
     "text": "Empty node"
   },
-  "9D+o0B": {
-    "note": "alert body text",
-    "text": "Proceeding with this action will permanently change your scene. You cannot undo this action"
-  },
   "9I3nDM": {
     "note": "Menu Item label",
     "text": "Undo"
@@ -286,14 +270,6 @@
   "B5EPL8": {
     "note": "Menu Item",
     "text": "Add 3D model"
-  },
-  "B6QsMN": {
-    "note": "button label",
-    "text": "Confirm"
-  },
-  "BK/UYP": {
-    "note": "alert header text",
-    "text": "Convert to entities failed"
   },
   "BNscqX": {
     "note": "Default Message for before an animation is selected",
@@ -455,10 +431,6 @@
     "note": "Hyperlink title",
     "text": "Learn More"
   },
-  "KoTFFN": {
-    "note": "Button text",
-    "text": "Convert scene"
-  },
   "KsFvzR": {
     "note": "Placeholder hint message for searching across entities",
     "text": "Find resources"
@@ -558,10 +530,6 @@
   "PT1lRG": {
     "note": "Scene Resource types in a dropdown menu",
     "text": "Opacity"
-  },
-  "PUKBon": {
-    "note": "Sub-Section Header",
-    "text": "Refresh cycle"
   },
   "PiJTq0": {
     "note": "remove rule Button Text",
@@ -695,10 +663,6 @@
     "note": "checkbox option",
     "text": "Enable Shadow"
   },
-  "YPkcJC": {
-    "note": "alert header text",
-    "text": "Converting scene"
-  },
   "ZKJ6Ci": {
     "note": "Toolbar label",
     "text": "Delete"
@@ -790,10 +754,6 @@
   "e9HZHd": {
     "note": "FormField label",
     "text": "Indicator shape"
-  },
-  "eElB3q": {
-    "note": "Sub-Section Description",
-    "text": "Converting your scene to entities enables auto updating, filtering and querying your scene."
   },
   "eKQvAU": {
     "note": "placeholder",
@@ -991,10 +951,6 @@
     "note": "Icon name label",
     "text": "Video icon"
   },
-  "oECZco": {
-    "note": "button label",
-    "text": "Ok"
-  },
   "oEXVJ5": {
     "note": "Motion Indicator Shape in a dropdown menu",
     "text": "Linear Plane"
@@ -1022,10 +978,6 @@
   "oppsQx": {
     "note": "placeholder",
     "text": "Choose a rule"
-  },
-  "pqZzsr": {
-    "note": "alert header text",
-    "text": "Convert to entities successful"
   },
   "pyg21P": {
     "note": "Number of Triangles in a scene",
@@ -1131,10 +1083,6 @@
     "note": "Remove parameter Button Text",
     "text": "Remove parameter"
   },
-  "ujFSQs": {
-    "note": "alert body text",
-    "text": "Some node conversion failed:"
-  },
   "v+Dj24": {
     "note": "hex validations messages",
     "text": "Invalid hex code"
@@ -1190,14 +1138,6 @@
   "x8NTqi": {
     "note": "Menu Item",
     "text": "Add empty node"
-  },
-  "xyFy7p": {
-    "note": "modal header text",
-    "text": "Convert scene"
-  },
-  "y9R3yg": {
-    "note": "Sub-Section Header",
-    "text": "Convert to entities"
   },
   "yXdV0F": {
     "note": "ExpandableInfoSection Title",

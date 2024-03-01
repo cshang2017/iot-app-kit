@@ -64,11 +64,6 @@ export interface ISceneDocumentSlice {
     isTransient?: boolean,
     skipEntityUpdate?: boolean,
   ): void;
-  updateSceneNodeInternalBatch(
-    nodesMap: Record<string, RecursivePartial<ISceneNodeInternal>>,
-    isTransient?: boolean,
-    skipEntityUpdate?: boolean,
-  ): void;
 
   updateDocumentInternal(partial: RecursivePartial<Pick<ISceneDocumentInternal, 'unit'>>): void;
   listSceneRuleMapIds(): string[];
@@ -255,17 +250,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         updateSceneNode(draft, ref, partial, skipEntityUpdate);
 
         draft.lastOperation = isTransient ? 'updateSceneNodeInternalTransient' : 'updateSceneNodeInternal';
-      });
-    },
-
-    updateSceneNodeInternalBatch: (nodesMap, isTransient, skipEntityUpdate) => {
-      set((draft) => {
-        Object.keys(nodesMap).forEach((ref) => {
-          const partial = nodesMap[ref];
-          updateSceneNode(draft, ref, partial, skipEntityUpdate);
-        });
-
-        draft.lastOperation = isTransient ? 'updateSceneNodeInternalBatchTransient' : 'updateSceneNodeInternalBatch';
       });
     },
 

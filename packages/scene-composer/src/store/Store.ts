@@ -1,14 +1,16 @@
 import create, { StateCreator, UseStore } from 'zustand';
 import shallow from 'zustand/shallow';
 
-import { log, immer, undoMiddleware, UndoState } from './middlewares';
+import { immer, undoMiddleware, UndoState } from './middlewares';
 
 import { SceneComposerOperation } from './StoreOperations';
+
+import { IDataStoreSlice, createDataStoreSlice } from './slices/DataStoreSlice';
 import { createSceneDocumentSlice, ISceneDocumentSlice } from './slices/SceneDocumentSlice';
 import { createEditStateSlice, IEditorStateSlice } from './slices/EditorStateSlice';
-import { IDataStoreSlice, createDataStoreSlice } from './slices/DataStoreSlice';
-import { createNodeErrorStateSlice, INodeErrorStateSlice } from './slices/NodeErrorStateSlice';
 import { createViewOptionStateSlice, IViewOptionStateSlice } from './slices/ViewOptionStateSlice';
+import { createNodeErrorStateSlice, INodeErrorStateSlice } from './slices/NodeErrorStateSlice';
+
 import {
   ISceneDocumentInternal,
   ISceneNodeInternal,
@@ -26,9 +28,9 @@ import {
   isISceneComponentInternal,
   isISceneNodeInternal,
 
-  IMotionIndicatorComponentInternal,
   IDataOverlayComponentInternal,
   IEntityBindingComponentInternal,
+  IMotionIndicatorComponentInternal,
   IPlaneGeometryComponentInternal,
 } from './internalInterfaces';
 
@@ -39,34 +41,185 @@ export type {
   ISceneComponentInternal,
 
   // Components
-  IModelRefComponentInternal,
-  ISubModelRefComponentInternal,
-  ICameraComponentInternal,
   IAnchorComponentInternal,
   IAnimationComponentInternal,
-  ILightComponentInternal,
+  ICameraComponentInternal,
   IColorOverlayComponentInternal,
-  IMotionIndicatorComponentInternal,
   IDataOverlayComponentInternal,
+
   IEntityBindingComponentInternal,
+  ILightComponentInternal,
+  IModelRefComponentInternal,
+  IMotionIndicatorComponentInternal,
   IPlaneGeometryComponentInternal,
+  
+  ISubModelRefComponentInternal,
 };
 
+// ** the name is compused, it only refers to ViewOption
 export interface ISharedState {
+    // SceneComposerOperation = Data | Doc | Editor | VierOption
   lastOperation?: SceneComposerOperation;
   noHistoryStates: IViewOptionStateSlice;
 }
 
-export type RootState = ISharedState &
+export type RootState = 
+  IDataStoreSlice &
   ISceneDocumentSlice &
   IEditorStateSlice &
-  IDataStoreSlice &
+
+  ISharedState &
   UndoState &
   INodeErrorStateSlice;
 
 /**
  * Core state management functions
  * TODO: make them into slices and better organized
+ */
+/**
+type State = object 
+
+type PartialState<
+    T extends State,
+    K1 extends keyof T = keyof T,
+    K2 extends keyof T = K1,
+    K3 extends keyof T = K2,
+    K4 extends keyof T = K3
+> = 
+                  | (Pick<T, K1> | Pick<T, K2> | Pick<T, K3> | Pick<T, K4> | T)
+    | ((state: T) => Pick<T, K1> | Pick<T, K2> | Pick<T, K3> | Pick<T, K4> | T)
+
+type StateSelector<T extends State, U> = (state: T) => U
+type EqualityChecker<T> = (state: T, newState: T) => boolean
+type StateListener<T> = (state: T, previousState: T) => void 
+
+type StateSliceListener<T> = (slice: T, previousSlice: T) => void 
+type Subscribe<T extends State> = {
+    (listener: StateListener<T>): () => void 
+    <StateSlice>(
+        listener: StateSliceListener<StateSlice>,
+        selector?: StateSelector<T, StateSlice>,
+        equalityFn?: EqualityChecker<StateSlice>,
+    ): () => void
+}
+
+type SetState<T extends State> = {
+    <
+        K1 extends keyof T,
+        K2 extends keyof T = K1,
+        K3 extends keyof T = K2,
+        K4 extends keyof T = K3
+    >(
+        partial: PartialState<T, K1, K2, K3, K4>,
+        replace?: boolean
+    ): void
+}
+type GetState<T extends State> = () => T
+type Destroy = () => void
+
+type StoreApi<T extends State> = {
+    setState: SetState<T>
+    getState: GetState<T>
+    subscribe: Subscribe<T>
+    destroy: Destroy
+}
+
+type StateCreator<
+    T extends State,
+    CustomSetState = SetState<T>,
+    CustomGetState = GetState<T>,
+    CustomStoreApi extends StoreApi<T> = StoreApi<T>
+> = (set: CustomSetState, get: CustomGetState, api: CustomStoreApi) => T
+
+function createStore<TState extends State>(
+    createState: StateCreator<
+        TState,
+        SetState<TState>,
+        GetState<TState>,
+        any>
+): StoreApi<TState>
+
+function createStore<
+    TState extends State,
+    CustomSetState,
+    CustomGetState, 
+    CustomStoreApi extends StoreApi<TState>
+>(
+    createState: StateCreator<
+        TState,
+        CustomSetState,
+        CustomGetState,
+        CustomStoreApi
+        >
+) : CustomerStoreApi {
+
+    let state: TState 
+    const listeners: Set<StateListener<TState>> = new Set()
+
+    const setState: SetState<TState> = (partial, replace) => {
+        const nextState = 
+            typeof partial === 'function'
+            ? (partial as (state: TState) => TState)(state)
+            : partial
+        if (nextState != state) {
+            const previousState = state
+            state = replace
+                ? (nextState as TState)
+                : Object.assign({}, state, nextState)
+            listener.forEach((listener) => listener(state, previousState))
+        }
+    }
+
+    const getState: GetState<TState> = () => state 
+
+    const subscribeWithSelector = <StateSlice>(
+        listener: StateSliceListener<StateSlice>,
+        selector: StateSelector<TState, StateSlice> = getState as any,
+        equalityFn: EqualityChecker<StateSlice> = Object.is
+    ) => {
+        let currentSlice: StateSlice = selector(state)
+        function listenerToAdd() {
+            const nextSlice = selector(state)
+            if (!equalityFn(currentSlice, nextSlice)) {
+                cosnt previousSlice = currentSlice
+                listener((currentSlice = nextSlice), previousSlice)
+            }
+        }
+        listeners.add(listenerToAdd)
+
+        // Unsubscribe
+        return () => listeners.delete(listenerToAdd)
+    }
+
+    const subscribe: Subscribe<TState> = <StateSlice>(
+        listener: StateListener<TState> | StateSliceListener<StateSlice>,
+        selector?: StateSelector<TState, StateSlice>,
+        equalityFn?: EqualityChecker<StateSlice>
+    ) => {
+        if (selector || equalityFn) {
+            return subscribeWithSelector(
+                listener as StateSliceListener<StateSlice>,
+                selector,
+                equalityFn
+            )
+        }
+        listeners.add(listener as StateListener<TState>)
+        return () => listeners.delete(listener as StateListener<TState>)
+    }
+
+    const destroy: Destroy = () => listeners.clear()
+    
+    const api = { setState, getState, subscribe, destroy }
+    state = createState(
+        setState as unknown as CustomSetState,
+        getState as unknown as CustomGetState,
+        api as unknown as CustomStoreApi
+    )
+
+    return api as unknown as CustomStoreApi
+}
+
+
  */
 const stateCreator: StateCreator<RootState> = (set, get, api) => ({
   lastOperation: undefined,
@@ -79,10 +232,147 @@ const stateCreator: StateCreator<RootState> = (set, get, api) => ({
   ...createNodeErrorStateSlice(set, get, api),
 });
 
-const createStateImpl: () => UseStore<RootState> = () => create<RootState>(undoMiddleware(log(immer(stateCreator))));
+const createStateImpl: 
+    () => UseStore<RootState> // return type
+    = () => create<RootState>(undoMiddleware(immer(stateCreator)));
 
 // TODO: currently undoMiddleware will record editor state changes, such as select/deselect object.
 // We may want to fine-tune the undo/redo experience.
+/**
+ 
+
+type UseStore<
+    T extends State,
+    CustomStoreApi extends StoreApi<T> = StoreApi<T>
+> = {
+    (): T
+    <U>(selector: StateSelector<T, U>, equalityFn?:EqualityChecker<U>): U 
+} & CustomStoreApi;
+
+type UseBoundStore<
+    T extends State,
+    CustomStoreApi extends StoreApi<T> = StoreApi<T>
+> = {
+    (): T
+    <U>(selector: StateSelector<T, U>, equalityFn?:EqualityChecker<U>): U
+} & CustomStoreApi
+
+function create<TState extends State>(
+    createState:
+        | StateCreator<TState, SetState<TState>, GetState<TState>, any>
+        | StoreApi<TState>
+): UseBoundStore<TState, StoreApi<TState>>
+
+function create<
+    TState extends State,
+    CustomSetState,
+    CustomGetState,
+    CustomStoreApi extends StoreApi<TState>
+>(
+    createState:
+        | StateCreator<TState, CustomSetState, CustomGetState, CustomStoreApi>
+        | CustomStoreApi
+): UseBoundStore<TState, CustomStoreApi> {
+    const api: CustomStoreApi =
+        typeof createState === 'function' 
+        ? createStore(createState)
+        : createState 
+
+    const useStore: any = <StateSlice>(
+        selector: StateSelector<TState, StateSlice> = api.getState as any,
+        equalityFn: EqualityChecker<StateSlice> = Object.is
+    ) => {
+        const [, forceUpdate] = useReducer((c) => c+1, 0) as [never, () => void]
+
+        const state = api.getState()
+        const stateRef = useRef(state)
+        const selectorRef = useRef(selector)
+        const equalityFnRef = useRef(equalityFn)
+        const erroredRef = useRef(false)
+
+        const currentSliceRef = useRef<StateSlice>()
+        if (currentSliceRef.current === undefined) {
+            currentSliceRef.current = selector(state)
+        }
+
+        let newStateSlice: StateSlice | undefined 
+        let hasNewStateSlice = false 
+
+        if (
+            stateRef.current !== state ||
+            selectorRef.current !== selector ||
+            equalityFnRef.current !== equalityFn ||
+            erroredRef.current 
+        ) {
+            newStateSlice = selector(state)
+            hasNewStateSlice = !equalityFn(
+                currentSliceRef.current as StateSlice,
+                newStateSlice
+            )
+        }
+
+        useEffect(() => {
+            if (hasNewStateSlice) {
+                currentSliceRef.current = newStateSlice as StateSlice
+            }
+            stateRef.current = state 
+            selectorRef.current = selector
+            equalityFnRef.current = equalityFn
+            erroredRef.current = false
+        })
+
+        const stateBeforeSubscriptionRef = useRef(state)
+        useEffect(() => {
+            const listener = () => {
+                try {
+                    const nextState = api.getState()
+                    const nextStateSlice = selectorRef.current(nextState)
+                    if (
+                        !equalityFnRef.current(
+                            currentSliceRef.current as StateSlice,
+                            nextStateSlice
+                        )
+                    ) {
+                        stateRef.current = nextState
+                        currentSliceRef.current = nextStateSlice
+                        forceUpdate()
+                    }
+                } catch(error) {
+                    erroredRef.current = true
+                    forceUpdate()
+                }
+            }
+
+            const unsubscribe = api.subscribe(listener)
+            if (api.getState() !== stateBeforeSubscriptionRef.current) {
+                listener()
+            }
+            return unsubscribe
+        }, [])
+
+        const sliceToReturn = hasNewStateSlice
+            ? (newStateSlice as StateSlice)
+            : currentSliceRef.current 
+        
+        useDebugValue(sliceToReturn)
+        return sliceToReturn
+    }
+
+    Object.assign(useStore, api)
+
+    useStore[Symbol.iterator] = function () {
+        const items = [useStore, api]
+        return {
+            next() {
+                const done = item.length <= 0
+                return { value: items.shift(), done }
+            },
+        }
+    }
+
+    return useStore
+}
+*/
 const stores = new Map<string, UseStore<RootState>>();
 export { stateCreator }
 
@@ -95,7 +385,9 @@ const useStore: (id: string) => UseStore<RootState> = (id: string) => {
 
 const sceneDocumentSelector = (state: RootState) => ({
   document: state.document,
+
   sceneLoaded: state.sceneLoaded,
+
   getSceneNodeByRef: state.getSceneNodeByRef,
   getSceneNodesByRefs: state.getSceneNodesByRefs,
   appendSceneNodeInternal: state.appendSceneNodeInternal,

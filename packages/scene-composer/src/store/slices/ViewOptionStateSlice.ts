@@ -6,19 +6,20 @@ import { Component } from '../../models/SceneModels';
 import { RootState } from '../Store';
 
 export interface IViewOptionStateSlice {
+
+  autoQueryEnabled?: boolean;
   componentVisibilities: Partial<{
     [key in KnownComponentType | Component.DataOverlaySubType]: boolean;
   }>;
-  viewport?: Viewport;
   dataBindingQueryRefreshRate?: number;
-  autoQueryEnabled?: boolean;
   tagSettings?: ITagSettings;
+  viewport?: Viewport;
 
-  setViewport: (viewport?: Viewport) => void;
-  setDataBindingQueryRefreshRate: (dataBindingQueryRefreshRate?: number) => void;
   setAutoQueryEnabled: (autoQueryEnabled: boolean) => void;
-  toggleComponentVisibility: (componentType: KnownComponentType | Component.DataOverlaySubType) => void;
+  setDataBindingQueryRefreshRate: (dataBindingQueryRefreshRate?: number) => void;
   setTagSettings: (settings: ITagSettings) => void;
+  toggleComponentVisibility: (componentType: KnownComponentType | Component.DataOverlaySubType) => void;
+  setViewport: (viewport?: Viewport) => void;
 }
 
 export const createViewOptionStateSlice = (set: SetState<RootState>): IViewOptionStateSlice => ({

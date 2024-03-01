@@ -1,107 +1,146 @@
-export type OperationType = 'INITIALIZE' | 'UPDATE_DOCUMENT' | 'UPDATE_EDITOR' | 'TRANSIENT';
+export type OperationType = 
+    | 'INITIALIZE' 
+    | 'UPDATE_DOCUMENT' 
+    | 'UPDATE_EDITOR' 
+    | 'TRANSIENT';
+
+export type SceneComposerDataOperation = 
+    | 'setDataBindingTemplate'
+    | 'setDataInput'
+    ;
+
+/* doc hierarchy
+    document
+    -> Node
+        -> Component
+            -> property
+                -> rule
+    */
+export type SceneComposerDocumentOperation =
+    | 'loadScene'
+  
+    | 'renderSceneNodesFromLayers'
+
+    | 'updateDocumentInternal'
+
+    | 'appendSceneNodeInternal'
+    | 'updateSceneNodeInternal'
+    | 'updateSceneNodeInternalTransient'
+    | 'removeSceneNode'
+     
+    | 'addComponentInternal'
+    | 'updateComponentInternal'
+    | 'removeComponent'
+    
+    | 'setSceneProperty'
+    
+    | 'updateSceneRuleMapById'
+    | 'removeSceneRuleMapById'
+    ;
 
 export type SceneComposerEditorOperation =
   | 'resetEditorState'
-  | 'setCameraControlsType'
   | 'setEditorConfig'
-  | 'setSelectedSceneNodeRef'
+  | 'setLoadingModelState' 
   | 'setSubModelSelection'
   | 'setHighlightedSceneNodeRef'
-  | 'setLoadingModelState'
+  | 'setSelectedSceneNodeRef'
+
   | 'setTransformControlMode'
   | 'setTransformControls'
-  | 'setCameraTarget'
+
   | 'addMessages'
   | 'clearMessages'
-  | 'setConvertSceneModalVisibility'
+
   | 'setAddingWidget'
-  | 'setCursorPosition'
+
   | 'setCursorLookAt'
-  | 'setCursorVisible'
+  | 'setCursorPosition'
   | 'setCursorStyle'
-  | 'setActiveCameraSettings'
+  | 'setCursorVisible'
+
   | 'setActiveCameraName'
+  | 'setActiveCameraSettings'
+  | 'setCameraControlsType'
+  | 'setCameraTarget'
   | 'setMainCameraObject';
 
-export type SceneComposerDocumentOperation =
-  | 'loadScene'
-  | 'appendSceneNodeInternal'
-  | 'renderSceneNodesFromLayers'
-  | 'updateSceneNodeInternal'
-  | 'updateSceneNodeInternalTransient'
-  | 'updateSceneNodeInternalBatch'
-  | 'updateSceneNodeInternalBatchTransient'
-  | 'updateDocumentInternal'
-  | 'removeSceneNode'
-  | 'updateSceneRuleMapById'
-  | 'removeSceneRuleMapById'
-  | 'addComponentInternal'
-  | 'updateComponentInternal'
-  | 'removeComponent'
-  | 'setSceneProperty';
-
-export type SceneComposerDataOperation = 'setDataInput' | 'setDataBindingTemplate';
-
 export type SceneComposerViewOptionOperation =
-  | 'setViewport'
-  | 'setDataBindingQueryRefreshRate'
   | 'setAutoQueryEnabled'
+  | 'setDataBindingQueryRefreshRate'
+  | 'setTagSettings'
+  | 'setViewport'
   | 'toggleComponentVisibility'
-  | 'setTagSettings';
+  ;
 
 export type SceneComposerOperation =
-  | SceneComposerEditorOperation
+  | SceneComposerDataOperation
   | SceneComposerDocumentOperation
+  | SceneComposerEditorOperation
   | SceneComposerViewOptionOperation
-  | SceneComposerDataOperation;
+  ;
 
 export const SceneComposerOperationTypeMap: Record<SceneComposerOperation, OperationType> = {
+
+    // SceneComposer-Data-Operation 
+    setDataInput: 'TRANSIENT',
+    setDataBindingTemplate: 'TRANSIENT',
+
+  // SceneComposer-Document-Operation
   // loadScene is a speical operation as we want to clear the undo/redo state after this
   loadScene: 'INITIALIZE',
 
-  appendSceneNodeInternal: 'UPDATE_DOCUMENT',
   renderSceneNodesFromLayers: 'UPDATE_DOCUMENT',
+
+  appendSceneNodeInternal: 'UPDATE_DOCUMENT',
   updateSceneNodeInternal: 'UPDATE_DOCUMENT',
   updateSceneNodeInternalTransient: 'TRANSIENT',
-  updateSceneNodeInternalBatch: 'UPDATE_DOCUMENT',
-  updateSceneNodeInternalBatchTransient: 'TRANSIENT',
-  updateDocumentInternal: 'UPDATE_DOCUMENT',
   removeSceneNode: 'UPDATE_DOCUMENT',
+
+  updateDocumentInternal: 'UPDATE_DOCUMENT',
+
   addComponentInternal: 'UPDATE_DOCUMENT',
   updateComponentInternal: 'UPDATE_DOCUMENT',
   removeComponent: 'UPDATE_DOCUMENT',
+  
+  setSceneProperty: 'UPDATE_DOCUMENT',
+  
   updateSceneRuleMapById: 'UPDATE_DOCUMENT',
   removeSceneRuleMapById: 'UPDATE_DOCUMENT',
-  setSceneProperty: 'UPDATE_DOCUMENT',
-
+  
+  // SceneComposer-Editor-Operation
   resetEditorState: 'UPDATE_EDITOR',
-  setCameraControlsType: 'UPDATE_EDITOR',
   setEditorConfig: 'UPDATE_EDITOR',
-  setSelectedSceneNodeRef: 'UPDATE_EDITOR',
+  
+  setLoadingModelState: 'TRANSIENT',
   setSubModelSelection: 'UPDATE_EDITOR',
   setHighlightedSceneNodeRef: 'UPDATE_EDITOR',
+  setSelectedSceneNodeRef: 'UPDATE_EDITOR',  
+
   setTransformControlMode: 'UPDATE_EDITOR',
   setTransformControls: 'UPDATE_EDITOR',
-  setCameraTarget: 'UPDATE_EDITOR',
+
   addMessages: 'UPDATE_EDITOR',
   clearMessages: 'UPDATE_EDITOR',
-  setConvertSceneModalVisibility: 'UPDATE_EDITOR',
+
   setAddingWidget: 'UPDATE_EDITOR',
-  setCursorPosition: 'UPDATE_EDITOR',
+
   setCursorLookAt: 'UPDATE_EDITOR',
-  setCursorVisible: 'UPDATE_EDITOR',
+  setCursorPosition: 'UPDATE_EDITOR',
   setCursorStyle: 'UPDATE_EDITOR',
-  setActiveCameraSettings: 'UPDATE_EDITOR',
+  setCursorVisible: 'UPDATE_EDITOR',
+
   setActiveCameraName: 'UPDATE_EDITOR',
+  setActiveCameraSettings: 'UPDATE_EDITOR',
+  setCameraControlsType: 'UPDATE_EDITOR',
+  setCameraTarget: 'UPDATE_EDITOR',
   setMainCameraObject: 'UPDATE_EDITOR',
 
-  setLoadingModelState: 'TRANSIENT',
-  setDataInput: 'TRANSIENT',
-  setDataBindingTemplate: 'TRANSIENT',
-
-  setViewport: 'TRANSIENT',
-  setDataBindingQueryRefreshRate: 'TRANSIENT',
+  // SceneCompser-ViewOption-Operation
   setAutoQueryEnabled: 'TRANSIENT',
-  toggleComponentVisibility: 'TRANSIENT',
+  setDataBindingQueryRefreshRate: 'TRANSIENT',
   setTagSettings: 'TRANSIENT',
-};
+  setViewport: 'TRANSIENT',
+  toggleComponentVisibility: 'TRANSIENT',
+}
+ ;
