@@ -56,7 +56,7 @@ export const SceneLayers: React.FC = () => {
 
   useEffect(() => {
     if (nodes.data) {
-      renderSceneNodesFromLayers(nodes.data, layerId!);
+      renderSceneNodesFromLayers(nodes.data);
     }
   }, [nodes.data, renderSceneNodesFromLayers]);
 

@@ -57,7 +57,6 @@ export const removeNode = (document: ISceneDocumentInternal, nodeRef: string, lo
 
 export const renderSceneNodesFromLayers = (
   nodes: ISceneNodeInternal[],
-  layerId: string,
   document: ISceneDocumentInternal,
   logger: ILogger,
 ): void => {

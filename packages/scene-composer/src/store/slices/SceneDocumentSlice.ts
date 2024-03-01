@@ -56,7 +56,7 @@ export interface ISceneDocumentSlice {
   getSceneNodesByRefs(refs: (string | undefined)[]): (ISceneNodeInternal | undefined)[];
   appendSceneNodeInternal(node: ISceneNodeInternal, disableAutoSelect?: boolean): void;
 
-  renderSceneNodesFromLayers(nodes: ISceneNodeInternal[], layerId: string): void;
+  renderSceneNodesFromLayers(nodes: ISceneNodeInternal[]): void;
 
   updateSceneNodeInternal(
     ref: string,
@@ -236,14 +236,14 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
       });
     },
 
-    renderSceneNodesFromLayers: (nodes, layerId) => {
+    renderSceneNodesFromLayers: (nodes) => {
       set((draft) => {
         const document = draft.document;
         if (!document) {
           return;
         }
 
-        renderSceneNodesFromLayers(nodes, layerId, document, LOG);
+        renderSceneNodesFromLayers(nodes, document, LOG);
 
         draft.sceneLoaded = true;
         draft.lastOperation = 'renderSceneNodesFromLayers';

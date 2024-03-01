@@ -28,7 +28,7 @@ export const SceneLayers3: React.FC = () => {
                                 where r.relationshipName = 'isChildOf'
                                 and e.entityId = 'Mixers_sceneid'`])
 
-                renderSceneNodesFromLayers(nodes, 'never-used')
+                renderSceneNodesFromLayers(nodes)
 
                 console.log('ProcessQuery completed with result: ', nodes);
             } catch(error) {
