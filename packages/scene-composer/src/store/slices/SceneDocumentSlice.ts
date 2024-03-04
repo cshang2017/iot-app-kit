@@ -125,7 +125,7 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         const overlaySettings: IOverlaySettings | undefined =
           result.document?.properties?.[KnownSceneProperty.ComponentSettings]?.[KnownComponentType.DataOverlay];
         if (overlaySettings) {
-          draft.noHistoryStates.componentVisibilities[Component.DataOverlaySubType.OverlayPanel] =
+          draft.componentVisibilities[Component.DataOverlaySubType.OverlayPanel] =
             overlaySettings.overlayPanelVisible;
         }
 
@@ -134,7 +134,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (!dynamicSceneEnabled || !isDynamicScene(result.document)) {
           draft.sceneLoaded = true;
         }
-        draft.lastOperation = 'loadScene';
       });
 
       // We cannot nest set operations in the store impl, so we'll need to delay
@@ -241,7 +240,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         renderSceneNodesFromLayers(nodes, document, LOG);
 
         draft.sceneLoaded = true;
-        draft.lastOperation = 'renderSceneNodesFromLayers';
       });
     },
 
@@ -249,7 +247,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
       set((draft) => {
         updateSceneNode(draft, ref, partial, skipEntityUpdate);
 
-        draft.lastOperation = isTransient ? 'updateSceneNodeInternalTransient' : 'updateSceneNodeInternal';
       });
     },
 
@@ -262,8 +259,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (dynamicSceneAlphaEnabled && sceneRootEntityId) {
           updateSceneRootEntity(sceneRootEntityId, draft.document);
         }
-
-        draft.lastOperation = 'updateDocumentInternal';
       });
     },
 
@@ -302,8 +297,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (isDynamicNode(nodeToRemove)) {
           deleteNodeEntity(nodeRef);
         }
-
-        draft.lastOperation = 'removeSceneNode';
       });
 
       return nodeToRemove;
@@ -329,8 +322,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (dynamicSceneAlphaEnabled && sceneRootEntityId) {
           updateSceneRootEntity(sceneRootEntityId, draft.document);
         }
-
-        draft.lastOperation = 'updateSceneRuleMapById';
       });
     },
 
@@ -343,8 +334,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (dynamicSceneAlphaEnabled && sceneRootEntityId) {
           updateSceneRootEntity(sceneRootEntityId, draft.document);
         }
-
-        draft.lastOperation = 'removeSceneRuleMapById';
       });
     },
 
@@ -364,8 +353,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (isDynamicNode(node)) {
           updateEntity(node, [component]);
         }
-
-        draft.lastOperation = 'addComponentInternal';
       });
     },
 
@@ -397,8 +384,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (updatedComponenet && isDynamicNode(updatedNode)) {
           updateEntity(updatedNode, [updatedComponenet]);
         }
-
-        draft.lastOperation = 'updateComponentInternal';
       });
     },
 
@@ -421,8 +406,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (removedComponenet && isDynamicNode(draft.document.nodeMap[nodeRef])) {
           updateEntity(draft.document.nodeMap[nodeRef], [removedComponenet], ComponentUpdateType.DELETE);
         }
-
-        draft.lastOperation = 'removeComponent';
       });
     },
 
@@ -474,8 +457,6 @@ export const createSceneDocumentSlice = (set: SetState<RootState>, get: GetState
         if (dynamicSceneAlphaEnabled && sceneRootEntityId) {
           updateSceneRootEntity(sceneRootEntityId, draft.document);
         }
-
-        draft.lastOperation = 'setSceneProperty';
       });
     },
 

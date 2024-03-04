@@ -170,7 +170,6 @@ export const createEditStateSlice = (
         } else {
           draft.editorConfig = Object.assign({}, draft.editorConfig, config);
         }
-        draft.lastOperation = 'setEditorConfig';
       });
     },
 
@@ -185,21 +184,18 @@ export const createEditStateSlice = (
     setAddingWidget(addingWidget?: AddingWidgetInfo) {
       set((draft) => {
         draft.addingWidget = addingWidget;
-        draft.lastOperation = 'setAddingWidget';
       });
     },
 
     setLoadingModelState(isLoading) {
       set((draft) => {
         draft.isLoadingModel = isLoading;
-        draft.lastOperation = 'setLoadingModelState';
       });
     },
 
     addMessages(messages) {
       set((draft) => {
         draft.messages.push(...messages);
-        draft.lastOperation = 'addMessages';
       });
     },
 
@@ -208,7 +204,6 @@ export const createEditStateSlice = (
         if (draft.messages.length > 0) {
           draft.messages.splice(0, draft.messages.length);
         }
-        draft.lastOperation = 'clearMessages';
       });
     },
 
@@ -219,56 +214,48 @@ export const createEditStateSlice = (
     setSelectedSceneNodeRef(nodeRef?: string) {
       set((draft) => {
         draft.selectedSceneNodeRef = nodeRef;
-        draft.lastOperation = 'setSelectedSceneNodeRef';
       });
     },
 
     setSelectedSceneSubmodelRef(submodelRef?: string) {
       set((draft) => {
         draft.selectedSceneSubmodelRef = submodelRef;
-        draft.lastOperation = 'setSubModelSelection';
       });
     },
 
     setHighlightedSceneNodeRef(nodeRef?: string) {
       set((draft) => {
         draft.highlightedSceneNodeRef = nodeRef;
-        draft.lastOperation = 'setHighlightedSceneNodeRef';
       });
     },
 
     setTransformControlMode(mode) {
       set((draft) => {
         draft.transformControlMode = mode;
-        draft.lastOperation = 'setTransformControlMode';
       });
     },
 
     setTransformControls(transformControls) {
       set((draft) => {
         draft.transformControls = transformControls;
-        draft.lastOperation = 'setTransformControls';
       });
     },
 
     setCameraControlsType(type) {
       set((draft) => {
         draft.cameraControlsType = type;
-        draft.lastOperation = 'setCameraControlsType';
       });
     },
 
     setCameraTarget(target, mode) {
       set((draft) => {
         draft.cameraCommand = { target, mode };
-        draft.lastOperation = 'setCameraTarget';
       });
     },
 
     resetEditorState() {
       set((draft) => {
         Object.assign(draft, createDefaultEditorState());
-        draft.lastOperation = 'resetEditorState';
       });
     },
 
@@ -277,8 +264,6 @@ export const createEditStateSlice = (
       get().sceneNodeRefObject3DMapping.getMapping()[ref] = object3d;
       object3d.userData = object3d.userData || {};
       object3d.userData = { ...object3d.userData, nodeRef: ref };
-      // we don't update the store's lastOperation as this is a transient option and can be called
-      // very frequently during scene loading.
     },
 
     getObject3DBySceneNodeRef(ref) {
@@ -290,14 +275,12 @@ export const createEditStateSlice = (
     setCursorPosition(position: THREE.Vector3) {
       set((draft) => {
         draft.cursorPosition = position;
-        draft.lastOperation = 'setCursorPosition';
       });
     },
 
     setCursorLookAt(lookAt: THREE.Vector3) {
       set((draft) => {
         draft.cursorLookAt = lookAt;
-        draft.lastOperation = 'setCursorLookAt';
       });
     },
 
@@ -308,7 +291,6 @@ export const createEditStateSlice = (
 
       set((draft) => {
         draft.cursorVisible = isVisible;
-        draft.lastOperation = 'setCursorVisible';
       });
     },
 
@@ -319,28 +301,24 @@ export const createEditStateSlice = (
 
       set((draft) => {
         draft.cursorStyle = style;
-        draft.lastOperation = 'setCursorStyle';
       });
     },
 
     setActiveCameraSettings(cameraSettings: CameraSettings) {
       set((draft) => {
         draft.activeCameraSettings = cameraSettings;
-        draft.lastOperation = 'setActiveCameraSettings';
       });
     },
 
     setActiveCameraName(name?: string) {
       set((draft) => {
         draft.activeCameraName = name;
-        draft.lastOperation = 'setActiveCameraName';
       });
     },
 
     setMainCameraObject(camera?: THREE.Camera) {
       set((draft) => {
         draft.mainCameraObject = camera;
-        draft.lastOperation = 'setMainCameraObject';
       });
     },
   } as IEditorStateSlice);

@@ -21,14 +21,12 @@ export const createDataStoreSlice = (
   setDataInput: (dataInput) => {
     set((draft) => {
       draft.dataInput = dataInput;
-      draft.lastOperation = 'setDataInput';
     });
   },
 
   setDataBindingTemplate: (dataBindingTemplate) => {
     set((draft) => {
       draft.dataBindingTemplate = dataBindingTemplate;
-      draft.lastOperation = 'setDataBindingTemplate';
     });
   },
 });

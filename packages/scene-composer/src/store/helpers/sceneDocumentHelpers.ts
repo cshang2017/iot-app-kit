@@ -151,8 +151,6 @@ export const appendSceneNode = (draft: RootState, node: ISceneNodeInternal, disa
   if (!disableAutoSelect) {
     draft.selectedSceneNodeRef = node.ref;
   }
-
-  draft.lastOperation = 'appendSceneNodeInternal';
 };
 
 export const updateSceneNode = (

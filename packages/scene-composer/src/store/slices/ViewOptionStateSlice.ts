@@ -32,33 +32,28 @@ export const createViewOptionStateSlice = (set: SetState<RootState>): IViewOptio
 
   setViewport: (viewport) => {
     set((draft) => {
-      draft.noHistoryStates.viewport = viewport;
-      draft.lastOperation = 'setViewport';
+      draft.viewport = viewport;
     });
   },
   setDataBindingQueryRefreshRate: (rate) => {
     set((draft) => {
-      draft.noHistoryStates.dataBindingQueryRefreshRate = rate;
-      draft.lastOperation = 'setDataBindingQueryRefreshRate';
+      draft.dataBindingQueryRefreshRate = rate;
     });
   },
   setAutoQueryEnabled: (autoQueryEnabled) => {
     set((draft) => {
-      draft.noHistoryStates.autoQueryEnabled = autoQueryEnabled;
-      draft.lastOperation = 'setAutoQueryEnabled';
+      draft.autoQueryEnabled = autoQueryEnabled;
     });
   },
   toggleComponentVisibility: (componentType) => {
     set((draft) => {
-      draft.noHistoryStates.componentVisibilities[componentType] =
-        !draft.noHistoryStates.componentVisibilities[componentType];
-      draft.lastOperation = 'toggleComponentVisibility';
+      draft.componentVisibilities[componentType] =
+        !draft.componentVisibilities[componentType];
     });
   },
   setTagSettings: (settings) => {
     set((draft) => {
-      draft.noHistoryStates.tagSettings = settings;
-      draft.lastOperation = 'setTagSettings';
+      draft.tagSettings = settings;
     });
   },
 });

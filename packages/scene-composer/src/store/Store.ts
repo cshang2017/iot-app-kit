@@ -56,19 +56,12 @@ export type {
   ISubModelRefComponentInternal,
 };
 
-// ** the name is compused, it only refers to ViewOption
-export interface ISharedState {
-    // SceneComposerOperation = Data | Doc | Editor | VierOption
-  lastOperation?: SceneComposerOperation;
-  noHistoryStates: IViewOptionStateSlice;
-}
-
 export type RootState = 
   IDataStoreSlice &
   ISceneDocumentSlice &
   IEditorStateSlice &
 
-  ISharedState &
+  IViewOptionStateSlice &
   INodeErrorStateSlice;
 
 /**
@@ -221,13 +214,10 @@ function createStore<
 
  */
 const stateCreator: StateCreator<RootState> = (set, get, api) => ({
-  lastOperation: undefined,
   ...createSceneDocumentSlice(set, get),
   ...createEditStateSlice(set, get, api),
   ...createDataStoreSlice(set, get, api),
-  noHistoryStates: {
-    ...createViewOptionStateSlice(set),
-  },
+  ...createViewOptionStateSlice(set),
   ...createNodeErrorStateSlice(set, get, api),
 });
 
@@ -401,6 +391,7 @@ const sceneDocumentSelector = (state: RootState) => ({
 
 const editorStateSelector = (state: RootState) => ({
   editorConfig: state.editorConfig,
+
   isViewing: state.isViewing,
   isEditing: state.isEditing,
   addingWidget: state.addingWidget,
@@ -441,31 +432,31 @@ const editorStateSelector = (state: RootState) => ({
 const dataStoreSelector = (state: RootState): IDataStoreSlice => ({
   dataBindingTemplate: state.dataBindingTemplate,
   dataInput: state.dataInput,
+
   setDataInput: state.setDataInput,
   setDataBindingTemplate: state.setDataBindingTemplate,
 });
 
 const nodeErrorStateSelector = (state: RootState): INodeErrorStateSlice => ({
   nodeErrorMap: state.nodeErrorMap,
+
   addNodeError: state.addNodeError,
   removeNodeError: state.removeNodeError,
 });
 
 const viewOptionStateSelector = (state: RootState): IViewOptionStateSlice => ({
-  viewport: state.noHistoryStates.viewport,
-  setViewport: state.noHistoryStates.setViewport,
 
-  dataBindingQueryRefreshRate: state.noHistoryStates.dataBindingQueryRefreshRate,
-  setDataBindingQueryRefreshRate: state.noHistoryStates.setDataBindingQueryRefreshRate,
+  autoQueryEnabled: state.autoQueryEnabled,
+  componentVisibilities: state.componentVisibilities,
+  dataBindingQueryRefreshRate: state.dataBindingQueryRefreshRate,
+  tagSettings: state.tagSettings,
+  viewport: state.viewport,
 
-  autoQueryEnabled: state.noHistoryStates.autoQueryEnabled,
-  setAutoQueryEnabled: state.noHistoryStates.setAutoQueryEnabled,
-
-  componentVisibilities: state.noHistoryStates.componentVisibilities,
-  toggleComponentVisibility: state.noHistoryStates.toggleComponentVisibility,
-  
-  tagSettings: state.noHistoryStates.tagSettings,
-  setTagSettings: state.noHistoryStates.setTagSettings,
+  setAutoQueryEnabled: state.setAutoQueryEnabled,
+  toggleComponentVisibility: state.toggleComponentVisibility,
+  setDataBindingQueryRefreshRate: state.setDataBindingQueryRefreshRate,
+  setTagSettings: state.setTagSettings,
+  setViewport: state.setViewport,
 });
 
 /**
