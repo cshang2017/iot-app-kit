@@ -1,7 +1,8 @@
 import create, { StateCreator, UseBoundStore, StoreApi } from 'zustand';
 import shallow from 'zustand/shallow';
 
-import { immer} from './middlewares';
+//import { immer} from './middlewares';
+import { immer } from "zustand/middleware/immer";
 
 import { SceneComposerOperation } from './StoreOperations';
 
@@ -213,6 +214,8 @@ function createStore<
 
 
  */
+
+/*
 const stateCreator: StateCreator<RootState> = (set, get, api) => ({
   ...createSceneDocumentSlice(set, get),
   ...createEditStateSlice(set, get, api),
@@ -223,9 +226,9 @@ const stateCreator: StateCreator<RootState> = (set, get, api) => ({
 
 const createStateImpl: 
     () => UseBoundStore<StoreApi<RootState>> // return type
-    = () => create<RootState>(immer(stateCreator));
+    = () => create<RootState>(stateCreator);
 
-
+*/
 /**
  
 
@@ -361,11 +364,18 @@ function create<
     return useStore
 }
 */
-const stores = new Map<string, UseBoundStore<StoreApi<RootState>>>();
 
-const useStore: (id: string) => UseBoundStore<StoreApi<RootState>> = (id: string) => {
+const store = create<RootState>()(
+  immer((set, get, store) => {
+    ...createDataStoreSlice(set, get, store),
+    ...createNodeErrorStateSlice(set, get, store),
+  })
+);
+const stores = new Map<string, typeof store>();
+
+const useStore: (id: string) => typeof store = (id: string) => {
   if (!stores.has(id)) {
-    stores.set(id, createStateImpl());
+    stores.set(id, store);
   }
   return stores.get(id)!;
 };
@@ -375,7 +385,7 @@ const sceneDocumentSelector = (state: RootState) => ({
 
   sceneLoaded: state.sceneLoaded,
 
-  
+
   getSceneNodeByRef: state.getSceneNodeByRef,
   getSceneNodesByRefs: state.getSceneNodesByRefs,
   appendSceneNodeInternal: state.appendSceneNodeInternal,
