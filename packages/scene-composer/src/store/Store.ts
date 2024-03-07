@@ -1,4 +1,4 @@
-import create, { StateCreator, UseStore } from 'zustand';
+import create, { StateCreator, UseBoundStore } from 'zustand';
 import shallow from 'zustand/shallow';
 
 import { immer} from './middlewares';
@@ -222,7 +222,7 @@ const stateCreator: StateCreator<RootState> = (set, get, api) => ({
 });
 
 const createStateImpl: 
-    () => UseStore<RootState> // return type
+    () => UseBoundStore<RootState> // return type
     = () => create<RootState>(immer(stateCreator));
 
 
@@ -361,10 +361,9 @@ function create<
     return useStore
 }
 */
-const stores = new Map<string, UseStore<RootState>>();
-export { stateCreator }
+const stores = new Map<string, UseBoundStore<RootState>>();
 
-const useStore: (id: string) => UseStore<RootState> = (id: string) => {
+const useStore: (id: string) => UseBoundStore<RootState> = (id: string) => {
   if (!stores.has(id)) {
     stores.set(id, createStateImpl());
   }
