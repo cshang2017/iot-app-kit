@@ -12,7 +12,7 @@ export const immer =
         const nextState = typeof partial === 'function' 
             ? produce(partial as (state: Draft<T>) => T) 
             : (partial as T);
-        set(nextState, replace);
+        set(nextState as any, replace);
       },
       get,
       api,

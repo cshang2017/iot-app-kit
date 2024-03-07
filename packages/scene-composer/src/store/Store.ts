@@ -1,4 +1,4 @@
-import create, { StateCreator, UseBoundStore } from 'zustand';
+import create, { StateCreator, UseBoundStore, StoreApi } from 'zustand';
 import shallow from 'zustand/shallow';
 
 import { immer} from './middlewares';
@@ -222,7 +222,7 @@ const stateCreator: StateCreator<RootState> = (set, get, api) => ({
 });
 
 const createStateImpl: 
-    () => UseBoundStore<RootState> // return type
+    () => UseBoundStore<StoreApi<RootState>> // return type
     = () => create<RootState>(immer(stateCreator));
 
 
@@ -361,9 +361,9 @@ function create<
     return useStore
 }
 */
-const stores = new Map<string, UseBoundStore<RootState>>();
+const stores = new Map<string, UseBoundStore<StoreApi<RootState>>>();
 
-const useStore: (id: string) => UseBoundStore<RootState> = (id: string) => {
+const useStore: (id: string) => UseBoundStore<StoreApi<RootState>> = (id: string) => {
   if (!stores.has(id)) {
     stores.set(id, createStateImpl());
   }
@@ -375,6 +375,7 @@ const sceneDocumentSelector = (state: RootState) => ({
 
   sceneLoaded: state.sceneLoaded,
 
+  
   getSceneNodeByRef: state.getSceneNodeByRef,
   getSceneNodesByRefs: state.getSceneNodesByRefs,
   appendSceneNodeInternal: state.appendSceneNodeInternal,
