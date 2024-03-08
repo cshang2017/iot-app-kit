@@ -288,8 +288,7 @@ const StateManager: React.FC<SceneComposerInternalProps> = ({
             return;
           }
           onSceneUpdated(sceneDocumentSnapshotCreator.create({ document: state.document }));
-        },
-        (state) => ({ document: state.document, sceneLoaded: state.sceneLoaded }),
+        }
       );
     }
   }, [onSceneUpdated]);

@@ -1,21 +1,19 @@
 import { GetState, SetState, StoreApi } from 'zustand';
 
 import { IDataInput, IDataBindingTemplate } from '../../interfaces';
-import { RootState } from '../Store';
 import { SliceCreator } from '../middlewares';
 
 export interface IDataStoreSlice {
-  dataInput: IDataInput;
-  dataBindingTemplate: IDataBindingTemplate;
+  dataInput?: IDataInput;
+  dataBindingTemplate?: IDataBindingTemplate;
 
   setDataInput: (dataInput?: IDataInput) => void;
   setDataBindingTemplate: (dataBindingTemplate: IDataBindingTemplate) => void;
 }
 
 export const createDataStoreSlice: SliceCreator<keyof IDataStoreSlice> = (
-  set,
-  get
-): IDataStoreSlice => ({
+  set
+) => ({
   dataInput: undefined,
 
   setDataInput: (dataInput) => {

@@ -43,6 +43,7 @@ export type {
 
   // Components
   IAnchorComponentInternal,
+
   IAnimationComponentInternal,
   ICameraComponentInternal,
   IColorOverlayComponentInternal,
@@ -61,7 +62,6 @@ export type RootState =
   IDataStoreSlice &
   ISceneDocumentSlice &
   IEditorStateSlice &
-
   IViewOptionStateSlice &
   INodeErrorStateSlice;
 
@@ -366,25 +366,33 @@ function create<
 */
 
 const store = create<RootState>()(
-  immer((set, get, store) => {
-    ...createDataStoreSlice(set, get, store),
-    ...createNodeErrorStateSlice(set, get, store),
-  })
+  immer(
+    (...a) => ({
+      ...createDataStoreSlice(...a),
+      ...createSceneDocumentSlice(...a),
+      ...createEditStateSlice(...a),
+      ...createViewOptionStateSlice(...a),
+      ...createNodeErrorStateSlice(...a),
+    })
+  )
 );
 const stores = new Map<string, typeof store>();
 
-const useStore: (id: string) => typeof store = (id: string) => {
+const useStore = (id: string) => {
   if (!stores.has(id)) {
     stores.set(id, store);
   }
   return stores.get(id)!;
 };
 
+/*
+
+
+
+*/
 const sceneDocumentSelector = (state: RootState) => ({
   document: state.document,
-
   sceneLoaded: state.sceneLoaded,
-
 
   getSceneNodeByRef: state.getSceneNodeByRef,
   getSceneNodesByRefs: state.getSceneNodesByRefs,
@@ -398,6 +406,24 @@ const sceneDocumentSelector = (state: RootState) => ({
   getSceneProperty: state.getSceneProperty,
   removeSceneNode: state.removeSceneNode,
 });
+
+const nodeErrorStateSelector = (state: RootState): INodeErrorStateSlice => ({
+  nodeErrorMap: state.nodeErrorMap,
+
+  addNodeError: state.addNodeError,
+  removeNodeError: state.removeNodeError,
+});
+
+const useNodeErrorState = (id: string): INodeErrorStateSlice => {
+  return useStore(id)(nodeErrorStateSelector, shallow);
+};
+
+
+/**
+ * useSceneDocument is a useful short-hand hook for reacting to scene document changes.
+ * NOTE: this will cause refresh whenever there is a change in the whole document.
+ * You should use a smaller granular state if that's not your intention.
+ */
 
 const editorStateSelector = (state: RootState) => ({
   editorConfig: state.editorConfig,
@@ -447,13 +473,6 @@ const dataStoreSelector = (state: RootState): IDataStoreSlice => ({
   setDataBindingTemplate: state.setDataBindingTemplate,
 });
 
-const nodeErrorStateSelector = (state: RootState): INodeErrorStateSlice => ({
-  nodeErrorMap: state.nodeErrorMap,
-
-  addNodeError: state.addNodeError,
-  removeNodeError: state.removeNodeError,
-});
-
 const viewOptionStateSelector = (state: RootState): IViewOptionStateSlice => ({
 
   autoQueryEnabled: state.autoQueryEnabled,
@@ -469,11 +488,6 @@ const viewOptionStateSelector = (state: RootState): IViewOptionStateSlice => ({
   setViewport: state.setViewport,
 });
 
-/**
- * useSceneDocument is a useful short-hand hook for reacting to scene document changes.
- * NOTE: this will cause refresh whenever there is a change in the whole document.
- * You should use a smaller granular state if that's not your intention.
- */
 const useSceneDocument = (id: string) => {
   return useStore(id)(sceneDocumentSelector, shallow);
 };
@@ -486,13 +500,13 @@ const useDataStore = (id: string): IDataStoreSlice => {
   return useStore(id)(dataStoreSelector, shallow);
 };
 
-const useNodeErrorState = (id: string): INodeErrorStateSlice => {
-  return useStore(id)(nodeErrorStateSelector, shallow);
-};
+
 
 const useViewOptionState = (id: string): IViewOptionStateSlice => {
   return useStore(id)(viewOptionStateSelector, shallow);
 };
+
+
 
 const isDocumentStateChanged = (current: ISceneDocumentInternal, previous: ISceneDocumentInternal): boolean => {
   // TODO: we'll just implement a simple comparision version for beta release
@@ -501,17 +515,21 @@ const isDocumentStateChanged = (current: ISceneDocumentInternal, previous: IScen
 
 export {
   useStore,
+
   sceneDocumentSelector,
   editorStateSelector,
   useSceneDocument,
   useEditorState,
   dataStoreSelector,
   useDataStore,
+
   nodeErrorStateSelector,
   useNodeErrorState,
   isDocumentStateChanged,
   isISceneComponentInternal,
   isISceneNodeInternal,
+
   viewOptionStateSelector,
   useViewOptionState,
+  
 };

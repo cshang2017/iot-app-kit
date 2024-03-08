@@ -1,5 +1,3 @@
-import { GetState, SetState, StoreApi } from 'zustand';
-
 import { SliceCreator } from '../middlewares';
 
 export interface INodeErrorStateSlice {
@@ -12,7 +10,7 @@ export interface INodeErrorStateSlice {
 export const createNodeErrorStateSlice: SliceCreator<keyof INodeErrorStateSlice> = (
   set,
   get
-): INodeErrorStateSlice => ({
+) => ({
   nodeErrorMap: {},
 
   addNodeError: (nodeRef: string, error: string) => {

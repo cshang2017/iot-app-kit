@@ -4,6 +4,7 @@ import { Viewport } from '@iot-app-kit/core';
 import { ITagSettings, KnownComponentType } from '../../interfaces';
 import { Component } from '../../models/SceneModels';
 import { RootState } from '../Store';
+import { SliceCreator } from '../middlewares';
 
 export interface IViewOptionStateSlice {
 
@@ -22,7 +23,8 @@ export interface IViewOptionStateSlice {
   setViewport: (viewport?: Viewport) => void;
 }
 
-export const createViewOptionStateSlice = (set: SetState<RootState>): IViewOptionStateSlice => ({
+export const createViewOptionStateSlice: SliceCreator<keyof IViewOptionStateSlice> = 
+(set)=> ({
   componentVisibilities: {
     [KnownComponentType.MotionIndicator]: true,
     [KnownComponentType.Tag]: true,
